@@ -5,6 +5,37 @@ $(document).on('click', '.modalopen', function() {
     var namemodal=$(this).data("namemodal");
     $("#"+namemodal).modal('open');
 });
+function inicia_pickadate(dom) {
+  $(dom).pickadate({
+    monthsFull: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
+    monthsShort: [ 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic' ],
+    weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
+    weekdaysShort: [ 'dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb' ],
+    weekdaysLetter:["D","L","M","M","J","V","S"],
+    today: 'hoy',
+    clear: 'borrar',
+    close: 'cerrar',
+    firstDay: 1,
+    format: 'yyyy-mm-dd',
+    /*formatSubmit: 'yyyy-mm-dd'*/
+  });
+}
+function inicia_pickadate2(dom) {
+  $(dom).pickadate({
+      monthsFull: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
+      monthsShort: [ 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic' ],
+      weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
+      weekdaysShort: [ 'dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb' ],
+      weekdaysLetter:["D","L","M","M","J","V","S"],
+      today: 'hoy',
+      clear: 'borrar',
+      close: 'cerrar',
+      firstDay: 1,
+      format: 'yyyy-mm-dd',
+      selectMonths: true, //
+      selectYears: 80 // 
+  });
+}
 var app = angular.module("myApp", ["ngRoute", "ui.materialize"]);
 app.config(function($routeProvider) {
     $routeProvider
@@ -48,6 +79,7 @@ app.controller('administracion_Controller', function($scope, $http) {
 app.controller('profesor_nomina_Controller', function($scope, $http) {
     $('.modal').modal();
     $('select').material_select();
+    inicia_pickadate("#in_fecha");
     $scope.lista=[];
     $scope.form=[];
     $http.get(base_url_global+"controlador_profesor/listar_profesor").then(function(response){

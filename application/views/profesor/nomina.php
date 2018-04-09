@@ -27,9 +27,9 @@
       <td>{{profesor.sexo}}</td>
       <td>{{profesor.especialidad}}</td>
       <td><a class="btn-floating waves-effect waves-light green" ng-click="form_modificar_registro($index)"><i class="material-icons">edit</i></a>&nbsp;&nbsp;<a class="btn-floating waves-effect waves-light red" ng-click="eliminar_registro(profesor.id)"><i class="material-icons">delete</i></a></td>
-    </tr> 
+    </tr>
     </tbody>
-  </table>  
+  </table>
 </div>
 <div id="addprofesor" class="modal full-modal modal-md">
   <div class="modal-content">
@@ -82,6 +82,20 @@
                       <label for="in_sexo">Sexo</label>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="input-field col s12 m4 l4">
+                      <input id="in_fecha" name="fecha" type="text" class="validate" required>
+                      <label for="in_fecha">Fecha de nacimiento</label>
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                      <input id="in_telefono" name="telefono" type="text" class="validate" required>
+                      <label for="in_telefono">Telefono</label>
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                      <input id="in_telefono_op" name="telefono_op" type="text" class="validate" required>
+                      <label for="in_telefono_op">Telefono opcional</label>
+                    </div>
+                  </div>
                   <div class="step-actions">
                     <button class="waves-effect waves-dark btn blue next-step">Continuar</button>
                     <a class="waves-effect waves-dark btn transparent grey-text modal-close">Cancelar</a>
@@ -126,7 +140,7 @@
             </ul>
           </form>
         </div>
-      </div>                  
+      </div>
     </div>
   </div>
 </div>
@@ -174,7 +188,7 @@
                       <label for="in_expedido">Expedido</label>
                     </div>
                     <div class="input-field col s12 m4 l4">
-                      <select id="in_sexo" ng-model="form.sexo">
+                      <select id="in_sexo">
                         <option value="M">Masculino</option>
                         <option value="F">Femenino</option>
                       </select>
@@ -225,11 +239,11 @@
             </ul>
           </form>
         </div>
-      </div>                  
+      </div>
     </div>
   </div>
 </div>
 
-<pre> 
+<pre>
 {{form | json}}
 </pre>
