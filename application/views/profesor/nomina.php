@@ -144,6 +144,12 @@
     </div>
   </div>
 </div>
+<script>
+  var departamentos = new Array();
+  departamentos[0] = "LP";
+  departamentos[1] = "CBBA";
+  departamentos[2] = "SC";
+</script>
 <div id="editprofesor" class="modal full-modal modal-md">
   <div class="modal-content">
     <div class="col s12">
