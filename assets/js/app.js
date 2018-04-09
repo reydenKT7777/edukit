@@ -1,47 +1,90 @@
-var app = angular.module("myApp", ["ngRoute"]);
+$(document).ready(function() {
+    $('.stepper').activateStepper();
+});
+$(document).on('click', '.modalopen', function() {
+    var namemodal=$(this).data("namemodal");
+    $("#"+namemodal).modal('open');
+});
+var app = angular.module("myApp", ["ngRoute", "ui.materialize"]);
 app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
-        templateUrl : base_url_global+"welcome/principal",
+        templateUrl : base_url_global+"template/principal",
         controller: 'principal_Controller'
     })
     .when("/administracion", {
-        templateUrl : base_url_global+"welcome/administracion",
+        templateUrl : base_url_global+"template/administracion",
         controller: 'administracion_Controller'
     })
     .when("/nominapro", {
-        templateUrl : base_url_global+"welcome/profesor_nomina",
+        templateUrl : base_url_global+"template/profesor_nomina",
         controller: 'profesor_nomina_Controller'
     })
     .when("/asistenciapro", {
-        templateUrl : base_url_global+"welcome/profesor_asistencia",
+        templateUrl : base_url_global+"template/profesor_asistencia",
         controller: 'profesor_asistencia_Controller'
     })
     .when("/disciplinapro", {
-        templateUrl : base_url_global+"welcome/profesor_disciplina"
+        templateUrl : base_url_global+"template/profesor_disciplina",
+        controller: 'profesor_disciplina_Controller'
     })
     .when("/nominaest", {
-        templateUrl : base_url_global+"welcome/estudiante_nomina"
+        templateUrl : base_url_global+"template/estudiante_nomina",
+        controller: 'estudiante_nomina_Controller'
     })
     .when("/asistenciaest", {
-        templateUrl : base_url_global+"welcome/estudiante_asistencia"
+        templateUrl : base_url_global+"template/estudiante_asistencia",
+        controller: 'estudiante_asistencia_Controller'
     })
     .when("/disciplinaest", {
-        templateUrl : base_url_global+"welcome/estudiante_disciplina"
+        templateUrl : base_url_global+"template/estudiante_disciplina",
+        controller: 'estudiante_disciplina_Controller'
     });
 });
 app.controller('principal_Controller', function($scope, $http) {
-    $scope.mensaje="";
 });
 app.controller('administracion_Controller', function($scope, $http) {
 });
 app.controller('profesor_nomina_Controller', function($scope, $http) {
+    $('.modal').modal();
+    $('select').material_select();
     $scope.lista=[];
-    $http.get(base_url_global+"controlador_profesor/listar_profesor")
-    .success(function(datos){
-      $scope.lista=datos;
+    $scope.form=[];
+    $http.get(base_url_global+"controlador_profesor/listar_profesor").then(function(response){
+       $scope.lista=response.data;
     })
-    .error(function(error) {
-      console.log(error);
-    });
+    $scope.agregar_registro=function(puntero){
+        swal("Registro agregado", "", "success");
+    }
+    $scope.form_modificar_registro=function(puntero){
+        $scope.form=$scope.lista[puntero];
+        $("#editprofesor").modal('open');
+    }
+    $scope.modificar_registro=function(){
+        swal("Registro Modificado", "puntero: "+puntero, "success");
+    }
+    $scope.eliminar_registro=function(id) {
+        swal({
+            title: "Este registro sera eliminado",
+            text: "Desea Continuar?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#f44336',
+            confirmButtonText: 'Eliminar',
+            closeOnConfirm: false
+        },
+        function() {
+            swal("Registro eliminado", "", "success");
+        });
+    }
+});
+app.controller('profesor_asistencia_Controller', function($scope, $http) {
+});
+app.controller('profesor_disciplina_Controller', function($scope, $http) {
+});
+app.controller('estudiante_nomina_Controller', function($scope, $http) {
+});
+app.controller('estudiante_asistencia_Controller', function($scope, $http) {
+});
+app.controller('estudiante_disciplina_Controller', function($scope, $http) {
 });

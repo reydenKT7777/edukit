@@ -1,3 +1,18 @@
 nav{
 	background-color: #1c4cc3;
 }
+.page-footer {
+    padding-top: 0;
+    color: #fff;
+    background-color: #1c4cc3;
+}
+.full-modal .modal-content{
+	padding: 0;
+}
+.modal-md{
+	width: 65% !important; max-height: 90% !important;
+}
+.modal-lg { 
+	width: 85% !important; 
+	max-height: 90% !important;
+}

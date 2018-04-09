@@ -5,25 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
     <title>Sisa</title>
     <!-- Favicons-->
     <link rel="icon" href="<?=base_url()?>assets/images/favicon/favicon-32x32.png" sizes="32x32">
-    <!-- Favicons-->
     <link rel="apple-touch-icon-precomposed" href="<?=base_url()?>assets/images/favicon/apple-touch-icon-152x152.png">
-    <!-- For iPhone -->
     <meta name="msapplication-TileColor" content="#00bcd4">
-    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
-    <!-- For Windows Phone -->
-    <!-- CORE CSS-->
+    <meta name="msapplication-TileImage" content="<?=base_url()?>assets/images/favicon/mstile-144x144.png">
+    <!-- CSS-->
     <link href="<?=base_url()?>assets/css/themes/fixed-menu/materialize.css" type="text/css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/themes/fixed-menu/style.css" type="text/css" rel="stylesheet">
-    <!-- Custome CSS-->
-    <link href="<?=base_url()?>assets/css/custom/custom.css" type="text/css" rel="stylesheet">
-    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
     <link href="<?=base_url()?>assets/vendors/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet">
     <link href="<?=base_url()?>assets/vendors/flag-icon/css/flag-icon.min.css" type="text/css" rel="stylesheet">
+    <!--otros CSS-->
+    <link href="<?=base_url()?>assets/vendors/sweetalert/dist/sweetalert.css" type="text/css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/materialize-stepper.min.css" type="text/css" rel="stylesheet">
+    <!--mi CSS-->
     <link href="<?=base_url()?>assets/css/mystyle.css" type="text/css" rel="stylesheet">
   </head>
   <body ng-app="myApp">
@@ -543,36 +539,29 @@
             <span>Copyright ©
               <script type="text/javascript">
                 document.write(new Date().getFullYear());
-              </script><a class="grey-text text-lighten-2" href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">SISA</a> derechos reservados.</span>
+              </script>
+              <a class="grey-text text-lighten-2" href="" target="_blank"> SISA </a> derechos reservados.</span>
             <span class="right hide-on-small-only"> Diseñado por Juan Carlos <a class="grey-text text-lighten-2" href=""></a></span>
           </div>
         </div>
       </div>
     </footer>
-    <!-- END FOOTER -->
-    <!-- ================================================
-    Scripts
-    ================================================ -->
-    <!-- jQuery Library -->
+    <!--javascript necesarios-->
     <script>
       var base_url_global="<?php echo base_url(); ?>";
     </script>
     <script type="text/javascript" src="<?=base_url()?>assets/vendors/jquery-3.2.1.min.js"></script>
-    <!--materialize js-->
-    <script type="text/javascript" src="<?=base_url()?>assets/js/materialize.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>assets/js/angular.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>assets/js/angular-route.min.js"></script>
-    <!--scrollbar-->
+    <script type="text/javascript" src="<?=base_url()?>assets/js/materialize.min.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>assets/js/angular-materialize.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
-
-
-    <!-- chartjs -->
-    <script type="text/javascript" src="<?=base_url()?>assets/vendors/chartjs/chart.min.js"></script>
-    <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+    <!--otros javascript-->
     <script type="text/javascript" src="<?=base_url()?>assets/js/plugins.js"></script>
-    <!--custom-script.js - Add your own theme custom JS-->
-    <script type="text/javascript" src="<?=base_url()?>assets/js/custom-script.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>assets/vendors/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>assets/vendors/jquery-validation/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>assets/js/materialize-stepper.min.js"></script>
+    <!--mis javascript-->
     <script type="text/javascript" src="<?=base_url()?>assets/js/app.js"></script>
   </body>
 </html>
