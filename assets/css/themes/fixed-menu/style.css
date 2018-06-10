@@ -6268,12 +6268,12 @@ h1 span.logo-text {
 
 header .brand-logo {
   margin: 1px 0px;
-  padding: 22px 20px;
+  padding: 10px 50px;
   line-height: 0;
 }
 
 header .brand-logo img {
-  height: 18px;
+  height: 40px;
 }
 
 @media only screen and (max-width: 992px) {
@@ -6647,7 +6647,7 @@ ul.side-nav.leftside-navigation li:not(.no-padding) a {
 }
 
 ul.side-nav.leftside-navigation li:not(.no-padding).user-details {
-  background: url("../../../images/gallary/12.png") no-repeat center center;
+  background: url("../../../images/gallary/23.png") no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -7742,7 +7742,7 @@ tr.group:hover {
     Login Page
 ------------------------------------------*/
 .login-form {
-  width: 320px;
+  width: 280px;
 }
 
 .login-form-text {
@@ -7752,8 +7752,8 @@ tr.group:hover {
 }
 
 .profile-image-login {
-  width: 100px;
-  height: 100px !important;
+  width: 180px;
+  
 }
 
 .login-text {
@@ -8399,7 +8399,7 @@ tr.group:hover {
 
 #profile-page-wall-posts .profile-medium {
   height: 350px;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 #profile-page-wall-posts .profile-large {

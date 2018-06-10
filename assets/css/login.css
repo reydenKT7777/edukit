@@ -1,0 +1,18 @@
+body{
+	background-image: url(../images/gallary/portada1.svg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	background-attachment: fixed;
+}
+
+.login-form .row{
+	margin-bottom: 0;
+}
+.row.row-button{
+	margin-bottom: 20px;
+}
+
+#login-page .row-button .input-field .btn{
+	background-color: #1f4291;
+}

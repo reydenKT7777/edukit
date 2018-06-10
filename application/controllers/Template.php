@@ -2,24 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Template extends CI_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
 	public function index()
 	{
+		$this->verificarSesionActiva();
+		$this->load->view('login');
+	}
+	public function sisa()
+	{
+		$this->verificarSesion();
 		$this->load->view('template');
 	}
 	public function principal()
@@ -32,6 +22,7 @@ class Template extends CI_Controller {
 	}
 	public function profesor_nomina()
 	{
+		//$this->verificarSesion();
 		$this->load->view('profesor/nomina');
 
 	}
@@ -60,5 +51,28 @@ class Template extends CI_Controller {
 		$this->load->view('estudiante/disciplina');
 
 	}
-
+	public function cursos()
+	{
+		$this->load->view('curso/cursos');
+	}
+	public function mis_grupos()
+	{
+		$this->load->view('noticias/mis_grupos');
+	}
+	public function mensajeria()
+	{
+		$this->load->view('noticias/mensajeria');
+	}
+	public function verificarSesion()
+	{
+		if (!(isset($this->session->id_usuario))) {
+			redirect(base_url(),'refresh');
+		}
+	}
+	public function verificarSesionActiva()
+	{
+		if (isset($this->session->id_usuario)) {
+			redirect(base_url().'template/sisa','refresh');
+		}
+	}
 }

@@ -6143,8 +6143,8 @@ input[type=tel]:not(.browser-default):focus:not([readonly]),
 input[type=number]:not(.browser-default):focus:not([readonly]),
 input[type=search]:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #ff4081;
-  box-shadow: 0 1px 0 0 #ff4081;
+  border-bottom: 1px solid #1f4291;
+  box-shadow: 0 1px 0 0 #1f4291;/*ff4081*/
 }
 
 input:not([type]):focus:not([readonly]) + label,
@@ -6160,7 +6160,7 @@ input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
 input[type=number]:not(.browser-default):focus:not([readonly]) + label,
 input[type=search]:not(.browser-default):focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label {
-  color: #ff4081;
+  color: #1f4291;
 }
 
 input:not([type]).validate + label,
@@ -6435,7 +6435,7 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
 }
 
 .input-field .prefix.active {
-  color: #ff4081;
+  color: #1f4291;
 }
 
 .input-field .prefix ~ input,

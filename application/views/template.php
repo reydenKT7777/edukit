@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="msapplication-tap-highlight" content="no">
-    <title>Sisa</title>
+    <title>Edukit</title>
     <!-- Favicons-->
-    <link rel="icon" href="<?=base_url()?>assets/images/favicon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon-precomposed" href="<?=base_url()?>assets/images/favicon/apple-touch-icon-152x152.png">
+    <link rel="icon" href="<?=base_url()?>assets/images/favicon/pestana.svg" sizes="32x32">
+    <link rel="apple-touch-icon-precomposed" href="<?=base_url()?>assets/images/favicon/pestana.svg">
     <meta name="msapplication-TileColor" content="#00bcd4">
     <meta name="msapplication-TileImage" content="<?=base_url()?>assets/images/favicon/mstile-144x144.png">
     <!-- CSS-->
@@ -19,6 +19,8 @@
     <!--otros CSS-->
     <link href="<?=base_url()?>assets/vendors/sweetalert/dist/sweetalert.css" type="text/css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/materialize-stepper.min.css" type="text/css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/select2-materialize.css" type="text/css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/vendors/dropify/css/dropify.min.css" type="text/css" rel="stylesheet">
     <!--mi CSS-->
     <link href="<?=base_url()?>assets/css/mystyle.css" type="text/css" rel="stylesheet">
   </head>
@@ -35,21 +37,21 @@
     <header id="header" class="page-topbar">
       <!-- start header nav-->
       <div class="navbar-fixed">
-        <nav class="navbar-color">
+        <nav class="navbar-color nav-head">
           <div class="nav-wrapper">
             <ul class="left">
               <li>
                 <h1 class="logo-wrapper">
                   <a href="index.html" class="brand-logo darken-1">
-                    <img src="<?=base_url()?>assets/images/logo/materialize-logo.png" alt="materialize logo">
-                    <span class="logo-text hide-on-med-and-down">Sisa</span>
+                    <img src="<?=base_url()?>assets/images/logo/logotipo d.svg" alt="materialize logo">
+                    <!-- <span class="logo-text hide-on-med-and-down">Sisa</span> -->
                   </a>
                 </h1>
               </li>
             </ul>
             <div class="header-search-wrapper hide-on-med-and-down">
               <i class="material-icons">search</i>
-              <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Buscar..." />
+              <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Buscar estudiante..." />
             </div>
             <ul class="right hide-on-med-and-down">
               <li>
@@ -67,7 +69,7 @@
               <li>
                 <a href="javascript:void(0);" class="waves-effect waves-block waves-light profile-button" data-activates="profile-dropdown">
                   <span class="avatar-status avatar-online">
-                    <img src="<?=base_url()?>assets/images/avatar/avatar-7.png" alt="avatar">
+                    <img src="<?=base_url()?><?=$this->session->foto_perfil?>" alt="avatar">
                     <i></i>
                   </span>
                 </a>
@@ -120,7 +122,7 @@
               </li>
               <li class="divider"></li>
               <li>
-                <a href="#" class="grey-text text-darken-1">
+                <a href="<?=base_url()?>login/logout" class="grey-text text-darken-1">
                   <i class="material-icons">keyboard_tab</i> Cerrar Sesion</a>
               </li>
             </ul>
@@ -136,12 +138,12 @@
       <!-- START WRAPPER -->
       <div class="wrapper">
         <!-- START LEFT SIDEBAR NAV-->
-        <aside id="left-sidebar-nav">
+        <aside id="left-sidebar-nav" ng-controller="sidebar_control">
           <ul id="slide-out" class="side-nav fixed leftside-navigation">
             <li class="user-details cyan darken-2">
               <div class="row">
                 <div class="col col s4 m4 l4">
-                  <img src="<?=base_url()?>assets/images/avatar/avatar-7.png" alt="" class="circle responsive-img valign profile-image cyan">
+                  <img src="<?=base_url()?><?=$this->session->foto_perfil?>" alt="" class="circle responsive-img valign profile-image cyan">
                 </div>
                 <div class="col col s8 m8 l8">
                   <ul id="profile-dropdown-nav" class="dropdown-content">
@@ -151,12 +153,23 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                      <a href="#" class="grey-text text-darken-1">
+                      <a href="<?=base_url()?>login/logout" class="grey-text text-darken-1">
                         <i class="material-icons">keyboard_tab</i> Cerrar</a>
                     </li>
                   </ul>
-                  <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav">John Doe<i class="mdi-navigation-arrow-drop-down right"></i></a>
-                  <p class="user-roal">Administrator</p>
+                  <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav"><?=$this->session->nombres?><i class="mdi-navigation-arrow-drop-down right"></i></a>
+                  <?php if ($this->session->rol == 1) {?>
+                    <p class="user-roal">Administrator</p>
+                  <?php } ?>
+                  <?php if ($this->session->rol == 2) {?>
+                    <p class="user-roal">Profesor</p>
+                  <?php } ?>
+                  <?php if ($this->session->rol == 3) {?>
+                    <p class="user-roal">Estudiante</p>
+                  <?php } ?>
+                  <?php if ($this->session->rol == 4) {?>
+                    <p class="user-roal">Tutor</p>
+                  <?php } ?>
                 </div>
               </div>
             </li>
@@ -168,12 +181,14 @@
                     <span class="nav-text">Inicio</span>
                   </a>
                 </li>
-                <li class="bold">
-                  <a href="#!administracion" class="waves-effect waves-cyan">
-                    <i class="material-icons">dashboard</i>
-                    <span class="nav-text">Administracion</span>
-                  </a>
-                </li>
+                <?php if ($this->session->rol == 1) {?>
+                  <li class="bold">
+                    <a href="#!administracion" class="waves-effect waves-cyan">
+                      <i class="material-icons">dashboard</i>
+                      <span class="nav-text">Administracion</span>
+                    </a>
+                  </li>
+
                 <li class="bold">
                   <a class="collapsible-header waves-effect waves-cyan">
                     <i class="material-icons">assignment_ind</i>
@@ -183,8 +198,9 @@
                     <ul>
                       <li>
                         <a href="#!nominapro">
-                          <i class="material-icons">keyboard_arrow_right</i>
-                          <span>Nomina</span>
+                          <i class="material-icons">keyboard_arrow_right
+                          </i>
+                          <span> Nomina</span>&nbsp;&nbsp;<span class="task-cat deep-orange accent-2">{{contador_nom_profesor}}</span>
                         </a>
                       </li>
                       <li>
@@ -202,6 +218,7 @@
                     </ul>
                   </div>
                 </li>
+                <?php } ?>
                 <li class="bold">
                   <a class="collapsible-header waves-effect waves-cyan">
                     <i class="material-icons">face</i>
@@ -236,9 +253,21 @@
               <p class="ultra-small margin more-text">MAS</p>
             </li>
             <li>
-              <a href="#!">
-                <i class="material-icons">verified_user</i>
-                <span class="nav-text">Otros</span>
+              <a href="#!cursos">
+                <i class="material-icons">business</i>
+                <span class="nav-text">Cursos</span>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i class="material-icons">done</i>
+                <span class="nav-text">Mensualidades</span>
+              </a>
+            </li>
+            <li>
+              <a href="#!mensajeria">
+                <i class="material-icons">email</i>
+                <span class="nav-text">Mensajeria</span>
               </a>
             </li>
           </ul>
@@ -540,7 +569,7 @@
               <script type="text/javascript">
                 document.write(new Date().getFullYear());
               </script>
-              <a class="grey-text text-lighten-2" href="" target="_blank"> SISA </a> derechos reservados.</span>
+              <a class="grey-text text-lighten-2" href="" target="_blank"> Edukit </a> derechos reservados.</span>
             <span class="right hide-on-small-only"> Diseñado por Juan Carlos <a class="grey-text text-lighten-2" href=""></a></span>
           </div>
         </div>
@@ -561,7 +590,10 @@
     <script type="text/javascript" src="<?=base_url()?>assets/vendors/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>assets/vendors/jquery-validation/jquery.validate.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>assets/js/materialize-stepper.min.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>assets/js/select2.min.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>assets/vendors/dropify/js/dropify.min.js"></script>
     <!--mis javascript-->
     <script type="text/javascript" src="<?=base_url()?>assets/js/app.js"></script>
+    
   </body>
 </html>

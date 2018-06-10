@@ -16,12 +16,12 @@ class Model_tutor extends CI_Model {
 		$this->db->where('id', $id);
 		$this->db->update('tutor', $data);
 	}
-	public function buscar_tutor($id)
+	public function buscar_tutor($ci)
 	{
-		$query = $this->db->select('*')
-                ->where('id', $id)
-                ->get('tutor');
-		return $query->result();
+		$query = $this->db->query("SELECT p.nombres,p.a_paterno,p.a_materno,tu.parentesco,us.foto_perfil,p.ci,tu.id as tutor_id,p.exp
+									FROM tutor tu, persona p,usuario us
+									WHERE tu.persona_id = p.id and p.ci = $ci and us.id = p.usuario_id");
+		return $query->row();
 	}
 	public function eliminar_datos($id)
 	{

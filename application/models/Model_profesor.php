@@ -3,10 +3,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Model_profesor extends CI_Model {
 	public function listar_profesor()
 	{
-		$query = $this->db->query('SELECT p.id,p.a_paterno,p.a_materno,p.nombres,p.ci,p.exp,p.sexo,prf.especialidad
+		$query = $this->db->query('SELECT u.nombre_usuario,u.correo_electronico, u.foto_perfil,u.estado,
+																			p.*,prf.especialidad
 															FROM usuario u
 															INNER JOIN persona p on p.usuario_id=u.id
-															INNER JOIN profesor prf on prf.persona_id = p.id');
+															INNER JOIN profesor prf on prf.persona_id = p.id
+														  where u.estado = 1 and u.rol = 2');
+		return $query->result();
+	}
+	public function listar_profesor_baja()
+	{
+		$query = $this->db->query('SELECT u.nombre_usuario,u.correo_electronico, u.foto_perfil,u.estado,
+																			p.*,prf.especialidad
+															FROM usuario u
+															INNER JOIN persona p on p.usuario_id=u.id
+															INNER JOIN profesor prf on prf.persona_id = p.id
+														  where u.estado = 0 and u.rol = 2');
 		return $query->result();
 	}
 	public function agregar_datos($data)
@@ -24,7 +36,7 @@ class Model_profesor extends CI_Model {
 		$query = $this->db->select('*')
                 ->where('id', $id)
                 ->get('profesor');
-		return $query->result();
+		return $query->row();
 	}
 	public function eliminar_datos($id)
 	{
