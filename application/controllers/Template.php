@@ -55,6 +55,10 @@ class Template extends CI_Controller {
 	{
 		$this->load->view('curso/cursos');
 	}
+	public function materias()
+	{
+		$this->load->view('materia/materias');
+	}
 	public function mis_grupos()
 	{
 		$this->load->view('noticias/mis_grupos');

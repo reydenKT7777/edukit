@@ -13,6 +13,8 @@ class Model_curso extends CI_Model {
 									FROM curso c ");
 		return $query->result();
 	}
+
+	
 	public function listar_curso_por_estado()
 	{
 		$query = $this->db->query("SELECT c.id, c.grado, c.nivel, c.paralelo
@@ -20,6 +22,8 @@ class Model_curso extends CI_Model {
 									WHERE c.estado=1");
 		return $query->result();
 	}
+
+
 	public function agregar_datos($data)
 	{
 		$this->db->set($data);

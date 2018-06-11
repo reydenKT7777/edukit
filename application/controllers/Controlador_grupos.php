@@ -12,11 +12,10 @@ class Controlador_grupos extends CI_Controller
 	}
 	public function listar_top_grupos()
 	{
-		$r = $this->Model_grupos->lista_top_grupo();
+		$id = $this->session->persona_id;
+		$rol = $this->session->rol;
+
+		$r = $this->Model_grupos->lista_top_grupo($rol);
 		echo json_encode($r);
-	}
-	public function contenido_grupo()
-	{
-		
 	}
 }

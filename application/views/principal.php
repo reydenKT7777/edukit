@@ -89,6 +89,7 @@
 	<div class="col s12 m4 l4">
 		<div id="ecommerce-offer">
       <div class="row">
+        <?php if ($this->session->rol == 1) {?>
         <div class="col s6 m6">
           <div class="card gradient-shadow gradient-45deg-light-blue-cyan border-radius-3">
             <div class="card-content center">
@@ -107,6 +108,7 @@
             </div>
           </div>
         </div>
+        <?php } ?>
         <!--div class="col s6 m12">
           <div class="card gradient-shadow gradient-45deg-amber-amber border-radius-3">
             <div class="card-content center">
@@ -146,9 +148,6 @@
     </div>
 	</div>
 </div>
-<pre>
-  {{ top_grupos | json}}
-</pre>
 <div id="modal_lista_megustas" class="modal material-modal modal-xs">
   <div class="modal-content">
     <div class="card-panel">

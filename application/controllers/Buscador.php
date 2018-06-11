@@ -13,7 +13,7 @@ class Buscador extends CI_Controller
 	}
 	public function buscar_profesor()
 	{
-		$profesor = $this->input->get("profesor");
+		$profesor = $this->input->get("textob");
 		$r = $this->Buscador_model->buscar_profesor($profesor);
 		echo json_encode($r);
 	}
@@ -32,5 +32,11 @@ class Buscador extends CI_Controller
 			$data = array(false , "");
 		}
 		echo json_encode($data);
+	}
+	public function buscar_estudiante()
+	{
+		$estudiante = $this->input->get("textob");
+		$r = $this->Buscador_model->buscar_estudiante($estudiante);
+		echo json_encode($r);
 	}
 }

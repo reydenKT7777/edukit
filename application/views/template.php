@@ -43,7 +43,7 @@
               <li>
                 <h1 class="logo-wrapper">
                   <a href="index.html" class="brand-logo darken-1">
-                    <img src="<?=base_url()?>assets/images/logo/logotipo d.svg" alt="materialize logo">
+                    <img src="<?=base_url()?>assets/images/logo/logotipo d2.svg" alt="materialize logo">
                     <!-- <span class="logo-text hide-on-med-and-down">Sisa</span> -->
                   </a>
                 </h1>
@@ -157,7 +157,9 @@
                         <i class="material-icons">keyboard_tab</i> Cerrar</a>
                     </li>
                   </ul>
-                  <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav"><?=$this->session->nombres?><i class="mdi-navigation-arrow-drop-down right"></i></a>
+                  
+                  <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav"><strong><?=$this->session->nombres?><i class="mdi-navigation-arrow-drop-down right"></strong></i></a>
+                  
                   <?php if ($this->session->rol == 1) {?>
                     <p class="user-roal">Administrator</p>
                   <?php } ?>
@@ -181,6 +183,32 @@
                     <span class="nav-text">Inicio</span>
                   </a>
                 </li>
+                <?php if ($this->session->rol == 2) {?>
+                <li class="bold">
+                  <a href="" class="waves-effect waves-cyan">
+                    <i class="material-icons">description</i>
+                    <span class="nav-text">Calificaciones</span>
+                  </a>
+                </li>
+                <!--li class="bold">
+                  <a href="" class="waves-effect waves-cyan">
+                    <i class="material-icons">assignment_turned_in</i>
+                    <span class="nav-text">Asistencia</span>
+                  </a>
+                </li-->
+                <li class="bold">
+                  <a href="" class="waves-effect waves-cyan">
+                    <i class="material-icons">event_note</i>
+                    <span class="nav-text">Disciplina</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a href="#!/materias" class="waves-effect waves-cyan">
+                    <i class="material-icons">folder_shared</i>
+                    <span class="nav-text">Materias</span>
+                  </a>
+                </li>
+                <?php } ?>
                 <?php if ($this->session->rol == 1) {?>
                   <li class="bold">
                     <a href="#!administracion" class="waves-effect waves-cyan">
@@ -188,7 +216,6 @@
                       <span class="nav-text">Administracion</span>
                     </a>
                   </li>
-
                 <li class="bold">
                   <a class="collapsible-header waves-effect waves-cyan">
                     <i class="material-icons">assignment_ind</i>
@@ -218,7 +245,6 @@
                     </ul>
                   </div>
                 </li>
-                <?php } ?>
                 <li class="bold">
                   <a class="collapsible-header waves-effect waves-cyan">
                     <i class="material-icons">face</i>
@@ -247,8 +273,10 @@
                     </ul>
                   </div>
                 </li>
+                <?php } ?>
               </ul>
             </li>
+            <?php if ($this->session->rol == 1) {?>
             <li class="li-hover">
               <p class="ultra-small margin more-text">MAS</p>
             </li>
@@ -270,6 +298,7 @@
                 <span class="nav-text">Mensajeria</span>
               </a>
             </li>
+            <?php } ?>
           </ul>
           <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only">
             <i class="material-icons">menu</i>
@@ -593,7 +622,14 @@
     <script type="text/javascript" src="<?=base_url()?>assets/js/select2.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>assets/vendors/dropify/js/dropify.min.js"></script>
     <!--mis javascript-->
+    <?php if ($this->session->rol == 1) {?>
     <script type="text/javascript" src="<?=base_url()?>assets/js/app.js"></script>
-    
+    <?php }elseif ($this->session->rol == 2) { ?>
+    <script type="text/javascript" src="<?=base_url()?>assets/js/app_profesor.js"></script>
+    <?php }elseif ($this->session->rol == 3) { ?>
+    <script type="text/javascript" src="<?=base_url()?>assets/js/app_estudiante.js"></script>
+    <?php }elseif ($this->session->rol == 4) { ?>
+    <script type="text/javascript" src="<?=base_url()?>assets/js/app_tutor.js"></script>
+    <?php } ?>
   </body>
 </html>

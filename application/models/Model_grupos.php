@@ -9,7 +9,7 @@ class Model_grupos extends CI_Model
 	{
 		parent::__construct();
 	}
-	public function lista_top_grupo()
+	public function lista_top_grupo($rol)
 	{
 		$r = $this->db->query("SELECT COUNT(n.id) as cantidadNoticias,n.ref_visualizacion
 							   FROM noticia n
@@ -67,7 +67,9 @@ class Model_grupos extends CI_Model
 			}
 		}
 		$curso = $this->db->query("select * from curso WHERE estado = 1");
-		foreach ($curso->result() as $row) {
+		
+		if ($rol==1 or $rol==3 or $rol==4) {
+			foreach ($curso->result() as $row) {
 			$id_curso = $row->id;
 				$est = $this->db->query("SELECT COUNT(es.id) as integrantes, CONCAT(c.grado, c.paralelo,' de ',c.nivel) as curso,c.id
 											FROM curso c 
@@ -83,9 +85,14 @@ class Model_grupos extends CI_Model
 								'tipo' => 'nc-'.$est->row()->id,
 								'color'=>'red'
 							);
+			}
 		}
+
 		$materia = $this->db->query("select * from materia WHERE estado = 1");
-		foreach ($materia->result() as $row) {
+		
+
+		if ($rol==2 or $rol==3 or $rol==4) {
+			foreach ($materia->result() as $row) {
 			$id_materia = $row->id;
 				$est = $this->db->query("SELECT COUNT(es.id) as integrantes, CONCAT(c.grado, c.paralelo,' de ',c.nivel) as curso, m.nombre as materia,m.id
 											FROM curso c 
@@ -102,11 +109,10 @@ class Model_grupos extends CI_Model
 								'tipo' => 'nm-'.$est->row()->id,
 								'color'=>'green'
 							);
+			}
 		}
+
 		return $data;
 	}
-	public function contenido_grupo($id_grupo)
-	{
-		# code...
-	}
+
 }

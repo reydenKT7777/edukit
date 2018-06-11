@@ -29,7 +29,7 @@ function buscador_select(dom, tip) {
       delay: 250,
       data: function (parametro) {
         return {
-          profesor: parametro.term,
+          textob: parametro.term,
         };
       },
         processResults: function (data2) {
@@ -49,7 +49,7 @@ function buscador_select(dom, tip) {
           '<li class="collection-item avatar">'+
             '<img src="'+ base_url_global + repo2.foto_perfil +'" alt="" class="circle">'+
             '<span style="color:#333;"><b>'+ repo2.nombre +'</b></span>'+
-            '<p style="color:#777;"><b>Especialidad: </b>' + repo2.especialidad + '<br>'+
+            '<p style="color:#777;"><b>' + repo2.detalle + '</b><br>'+
             '</p>'+
           '</li>'+
         '</ul>';
@@ -919,6 +919,24 @@ app.controller('estudiante_asistencia_Controller', function($scope, $http) {
     buscador_select("#in_est_b", 'tipo_2');
     $scope.lista_cursos_col=[];
     $scope.lista_estudiantes=[];
+    $scope.asistencia_valid=false;
+    $scope.datos_est_ind=[];
+    $scope.bus_estudiante=function(){
+        var aux_id=$('#in_est_b').val();
+        $http.get(base_url_global+"Controlador_asistencia/asistencia_individual?id_estudiante="+aux_id).then(function(response){
+            $scope.datos_est_ind=response.data[0];
+        })
+        $("#modal_asistencia_in").modal('open');
+    }
+    $scope.guardar_asistencia_est=function(){
+        $http.post(base_url_global+"Controlador_asistencia/guardar_asistencia_individual", $scope.datos_est_ind).then(function(response){
+            if (response.data[0]) {
+                $("#modal_asistencia_in").modal('close');
+                var $toastContent = $('<span><i class="material-icons green-text">done</i>&nbsp;&nbsp; Asistencia guardado con exito</span>');
+                Materialize.toast($toastContent, 2000);
+            }
+        })
+    }
     $scope.listar_cursos_col=function(){
         $http.get(base_url_global+"Controlador_asistencia/listar_cursos").then(function(response){
             $scope.lista_cursos_col=response.data;
@@ -930,7 +948,34 @@ app.controller('estudiante_asistencia_Controller', function($scope, $http) {
         })
         $("#modal_lista_curso").modal('open');  
     }
-    $scope.listar_cursos_col();
+    $scope.fun_habilitar_asistencia=function(){
+        if (!$scope.asistencia_valid) {
+            $http.get(base_url_global+"Controlador_asistencia/asistencias_retrasos").then(function(response){
+                if(response.data[0]){
+                    $scope.asistencia_valid=true;
+                    $scope.listar_cursos_col();
+                }
+            })
+        }
+    }
+    $scope.guardar_asistencia_curso=function(){
+        $http.post(base_url_global+"Controlador_asistencia/guardar_asistencia", $scope.lista_estudiantes).then(function(response){
+            if (response.data[0]) {
+                $("#modal_lista_curso").modal('close');
+                var $toastContent = $('<span><i class="material-icons green-text">done</i>&nbsp;&nbsp; Lista de asistencia guardado con exito</span>');
+                Materialize.toast($toastContent, 2000);
+                $scope.listar_cursos_col();
+            }
+        })
+    }
+    $http.get(base_url_global+"Controlador_asistencia/mis_registros_asistencia").then(function(response){
+        if (response.data[0]) {
+            $scope.asistencia_valid=true;
+            $scope.listar_cursos_col();
+        }else{
+            $scope.asistencia_valid=false;
+        }
+    })
 });
 app.controller('estudiante_disciplina_Controller', function($scope, $http) {
 });
