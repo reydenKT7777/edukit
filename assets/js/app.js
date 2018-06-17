@@ -1,3 +1,4 @@
+var cod_perfil_grupo='';
 ///abrir modals
 $(document).on('click', '.modalopen', function() {
     var namemodal=$(this).data("namemodal");
@@ -11,13 +12,19 @@ $(document).on('change', '#in_img2', function(){
   leeimg2(this);
 })
 // inicializar select2
-function buscador_select(dom) {
+function buscador_select(dom, tip) {
+    var url_peticion="";
+    if (tip == 'tipo_1') {
+        url_peticion = base_url_global+"Buscador/buscar_profesor";
+    }else if (tip == 'tipo_2') {
+        url_peticion = base_url_global+"Buscador/buscar_estudiante";
+    }
   $(dom).select2({
     language: "es",
     placeholder: "Escriba Apellido y Nombre",
     allowClear: true,
     ajax: {
-      url: base_url_global+"Buscador/buscar_profesor",
+      url: url_peticion,
       dataType: 'json',
       delay: 250,
       data: function (parametro) {
@@ -169,14 +176,28 @@ app.config(function($routeProvider) {
     .when("/mensajeria", {
         templateUrl : base_url_global+"template/mensajeria",
         controller: 'mensajeria_Controller'
+    })
+    .when("/perfilgrupo", {
+        templateUrl : base_url_global+"template/perfil_grupo",
+        controller: 'perfil_grupo_Controller'
     });
 });
-app.controller('principal_Controller', function($scope, $http) {
+app.controller('principal_Controller', function($scope, $http, $location) {
     $scope.subir_file=false;
     $('.dropify').dropify();
     $('.modal').modal();
     $scope.lista_post=[];
     $scope.lista_megustas=[];
+    $scope.top_grupos=[];
+    $scope.lista_top_grupos=function(){
+        $http.get(base_url_global+"Controlador_grupos/listar_top_grupos").then(function(response){
+            $scope.top_grupos=response.data;
+        })
+    }
+    $scope.dir_perfil_grupo=function(val_ruta){
+        cod_perfil_grupo = val_ruta;
+        $location.path("/perfilgrupo");
+    }
     $scope.activa_subir_file=function(){
         if ($scope.subir_file) {
             $scope.subir_file=false;
@@ -190,20 +211,23 @@ app.controller('principal_Controller', function($scope, $http) {
         if (aux != '') {
             $.ajax({
                 type: 'POST',
-                url: base_url_global+'controlador_publicacion/agregar_datos',
+                url: base_url_global+'controlador_publicacion/agregar_datos?ref_ver=ng',
                 data: formData,
                 contentType: false,
                 processData: false,
                 dataType: 'json',
                 success: function(respuesta){
                     if (respuesta[0]) {
-                        $("#form_noti_post").trigger('reset');
                         var $toastContent = $('<span><i class="material-icons green-text">done</i>&nbsp;&nbsp; Noticia publicada con exito</span>');
                         Materialize.toast($toastContent, 2000);
+                        $scope.lista_post.unshift(respuesta[1]);
+                        $scope.$apply();
+                        $("#form_noti_post").trigger('reset');
+                        $scope.subir_file=false;
+                        $('.dropify-clear').click();
                     }else{
-                        swal("Error", respuesta[1], "error");
-                    }
-                    
+                        swal("Error", respuesta[0], "error");
+                    }  
                 }, 
                 beforeSend: function() {
                   
@@ -221,19 +245,14 @@ app.controller('principal_Controller', function($scope, $http) {
         $http.get(base_url_global+"Controlador_publicacion/listar_publicacion?pag=0").then(function(response){
             $scope.lista_post=response.data;
         })
-        $('.materialboxed').materialbox();
     }
     $scope.mas_posts=function(){
-        /*var pagpost=$scope.post.length;
-        $http.get("index.php?view=publicacion&action=listar_todo&list_full=Vmc1RTFRTvcFTE105YTUFD52TD0wd&pag_post="+pagpost)
-        .success(function(data_post_m){
-          for(var i in data_post_m){
-            $scope.post.push(data_post_m[i]);
-          }
+        var pagpost=$scope.lista_post.length;
+        $http.get(base_url_global+"Controlador_publicacion/listar_publicacion?pag="+pagpost).then(function(response){
+            for(var i in response.data){
+                $scope.lista_post.push(response.data[i]);
+            }
         })
-        .error(function(error) {
-          console.log(error);
-        });*/
     }
     $scope.modifica_like=function(index, puid){
         $http.get(base_url_global+"Controlador_publicacion/modificaMeGusta?nid="+puid).then(function(response){
@@ -256,9 +275,110 @@ app.controller('principal_Controller', function($scope, $http) {
         })
     }
     $scope.listar_posts();
+    $scope.lista_top_grupos();
+    $('.materialboxed').materialbox();
 });
 app.controller('mis_grupos_Controller', function($scope, $http) {
     
+});
+app.controller('perfil_grupo_Controller', function($scope, $http) {
+    $scope.subir_file=false;
+    $('.dropify').dropify();
+    $('.modal').modal();
+    $scope.lista_post=[];
+    $scope.lista_megustas=[];
+    $scope.info_grupo=[];
+    $scope.lista_miembros=[];
+    $scope.activa_subir_file=function(){
+        if ($scope.subir_file) {
+            $scope.subir_file=false;
+        }else{
+            $scope.subir_file=true;
+        }
+    }
+    $scope.nuevo_post=function(){
+        var formData = new FormData($("#form_noti_post")[0]);
+        var aux =$('#in_text_post').val();
+        if (aux != '') {
+            $.ajax({
+                type: 'POST',
+                url: base_url_global+'controlador_publicacion/agregar_datos?ref_ver='+cod_perfil_grupo,
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(respuesta){
+                    if (respuesta[0]) {
+                        $("#form_noti_post").trigger('reset');
+                        var $toastContent = $('<span><i class="material-icons green-text">done</i>&nbsp;&nbsp; Noticia publicada con exito</span>');
+                        Materialize.toast($toastContent, 2000);
+                        $scope.lista_post.unshift(respuesta[1]);
+                        $scope.$apply();
+                        $scope.subir_file=false;
+                        $('.dropify-clear').click();
+                    }else{
+                        swal("Error", respuesta[0], "error");
+                    }  
+                }, 
+                beforeSend: function() {
+                  
+                },
+                complete: function() {
+                  
+                }
+            });   
+        }else{
+            var $toastContent = $('<span><i class="material-icons red-text">error</i>&nbsp;&nbsp; El contenido de la noticia es obligatorio</span>');
+            Materialize.toast($toastContent, 2000);
+        }
+    }
+    /*$scope.listar_posts_g=function(){
+        $http.get(base_url_global+"Controlador_publicacion/listar_publicacion?pag=0&ref_ver="+cod_perfil_grupo).then(function(response){
+            $scope.lista_post=response.data;
+        })    
+    }*/
+    $scope.mas_posts=function(){
+        var pagpost=$scope.lista_post.length;
+        $http.get(base_url_global+"Controlador_publicacion/listar_publicacion?pag="+pagpost+"&ref_ver="+cod_perfil_grupo).then(function(response){
+            for(var i in response.data){
+                $scope.lista_post.push(response.data[i]);
+            }
+        })
+    }
+    $scope.modifica_like=function(index, puid){
+        $http.get(base_url_global+"Controlador_publicacion/modificaMeGusta?nid="+puid).then(function(response){
+            if (response.data[0]) {
+                $scope.lista_post[index].meGusta=($scope.lista_post[index].meGusta)*1+1;
+                $scope.lista_post[index].meGustaPersonal=true;
+            }else{
+                $scope.lista_post[index].meGusta=($scope.lista_post[index].meGusta)*1-1;
+                $scope.lista_post[index].meGustaPersonal=false;
+            }
+        })
+    }
+    $scope.mostrar_likes_noticia=function(puntero, puid){
+        $http.get(base_url_global+"Controlador_publicacion/me_gusta_noticia?nid="+puid).then(function(response){
+            $scope.lista_megustas=response.data[0];
+            if ($scope.lista_megustas.length > 0) {
+               $("#modal_lista_megustas").modal('open');
+               $scope.lista_post[puntero].meGusta=response.data[1];
+            }
+        })
+    }
+    $scope.ver_info_grupo=function(){
+        $http.get(base_url_global+"Controlador_publicacion/listar_publicacion?ref_ver="+cod_perfil_grupo).then(function(response){
+            $scope.lista_post=response.data[1];
+            $scope.info_grupo=response.data[0];
+        })
+    }
+    $scope.mostrar_miembros=function(){
+        $http.get(base_url_global+"Controlador_publicacion/listar_publicacion?ref_ver="+cod_perfil_grupo).then(function(response){
+            $scope.lista_miembros=response.data;
+            $("#modal_lista_miembros").modal('open');
+        })
+    }
+    //$scope.ver_info_grupo();
+    $('.materialboxed').materialbox();
 });
 app.controller('mensajeria_Controller', function($scope, $http) {
     
@@ -595,7 +715,7 @@ app.controller('profesor_asistencia_Controller', function($scope, $http) {
 });
 app.controller('profesor_disciplina_Controller', function($scope, $http) {
     $scope.lista=[];
-    buscador_select("#in_profe");
+    buscador_select("#in_profe", 'tipo_1');
     $scope.lista_disciplinas=[];
     $scope.listar_disciplinas=function(){
         $http.get(base_url_global+"Controlador_disciplina_docente/listar_disciplina_docente").then(function(response){
@@ -796,9 +916,21 @@ app.controller('estudiante_nomina_Controller', function($scope, $http) {
 });
 app.controller('estudiante_asistencia_Controller', function($scope, $http) {
     $('.modal').modal();
-    $scope.seleccion_curso=function(){
-        $("#modal_lista_curso").modal('open');
+    buscador_select("#in_est_b", 'tipo_2');
+    $scope.lista_cursos_col=[];
+    $scope.lista_estudiantes=[];
+    $scope.listar_cursos_col=function(){
+        $http.get(base_url_global+"Controlador_asistencia/listar_cursos").then(function(response){
+            $scope.lista_cursos_col=response.data;
+        })
     }
+    $scope.seleccion_curso=function(var_id_curso){
+        $http.get(base_url_global+"Controlador_asistencia/listar_asistencia_estudiantes_curso?id="+var_id_curso).then(function(response){
+            $scope.lista_estudiantes=response.data;
+        })
+        $("#modal_lista_curso").modal('open');  
+    }
+    $scope.listar_cursos_col();
 });
 app.controller('estudiante_disciplina_Controller', function($scope, $http) {
 });

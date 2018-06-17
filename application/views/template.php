@@ -8,7 +8,7 @@
     <title>Edukit</title>
     <!-- Favicons-->
     <link rel="icon" href="<?=base_url()?>assets/images/favicon/pestana.svg" sizes="32x32">
-    <link rel="apple-touch-icon-precomposed" href="<?=base_url()?>assets/images/favicon/pestana.svg">
+    <link rel="apple-touch-icon-precomposed" href="<?=base_url()?>assets/images/favicon/pestaniaa.svg">
     <meta name="msapplication-TileColor" content="#00bcd4">
     <meta name="msapplication-TileImage" content="<?=base_url()?>assets/images/favicon/mstile-144x144.png">
     <!-- CSS-->

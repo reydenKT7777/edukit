@@ -143,9 +143,16 @@ class Controlador_estudiante extends CI_Controller {
 	}
 	public function modificar_estudiante()
 	{
-		$id = $this->input->post("id_estudiante");
-		$foto = $this->input->post('foto');
-		//$sexo = $this->input->post('sexo');
+		$id_estudiante = $this->input->post("id_estudiante");
+		$consulta = $this->model_persona->IDestudiantefPersonaUser($id_estudiante);
+		foreach ($consulta as $row) {
+			$id_usuario = $row->id_usuario;
+			$id_persona = $row->id_persona;
+			$id_estudiante = $row->id_estudiante;
+			$id_inscripcion = $row->id_inscripcion;
+			$foto_perfil = $row->foto_perfil;
+		}
+		//$foto = $this->input->post('foto');
 
 		$a_paterno = $this->input->post('a_paterno');
 		$a_materno = $this->input->post('a_materno');
@@ -153,8 +160,8 @@ class Controlador_estudiante extends CI_Controller {
 		$ci = $this->input->post('ci');
 		$exp = $this->input->post('exp');
 
-		$telf = $this->input->post('telefono');
-		$telf_opc = $this->input->post('telefono_op');
+		//$telf = $this->input->post('telefono');
+		//$telf_opc = $this->input->post('telefono_op');
 		//$direccion = $this->input->post('direccion');
 		//$f_nacimiento = $this->input->post('fecha');
 
@@ -182,7 +189,7 @@ class Controlador_estudiante extends CI_Controller {
 				if ($sexo == "F") {
 					$nombreFoto = "assets/images/avatar/mujer.png";
 				}*/
-				$nombreFoto = "assets/images/avatar/default.png";
+				$nombreFoto = $this->session->foto_perfil;//"assets/images/avatar/default.png";
 				if($_FILES['foto']['name'] != "")
 					{
 						$file = $_FILES["foto"];
@@ -202,44 +209,44 @@ class Controlador_estudiante extends CI_Controller {
 						$nombreFoto = "assets/images/avatar/".$nombreArchivo;
 					}
 				$usuario = array(
-					'nombre_usuario' => $ci,
-					'contrasena' => sha1($ci),
+					//'nombre_usuario' => $ci,
+					//'contrasena' => sha1($ci),
 					'f_modificacion' => date('Y-m-d'),
-					'activacion_cuenta' => 1,
-					'correo_electronico' => "",
+					//'activacion_cuenta' => 1,
+					//'correo_electronico' => "",
 					'foto_perfil' => $nombreFoto,
-					'sesion' => 0,
-					'rol' => 3,
-					'estado' =>1
+					//'sesion' => 0,
+					//'rol' => 3,
+					//'estado' =>1
 				 );
-				$id_usuario = $this->model_usuario->agregar_datos($usuario);
+				$this->model_usuario->modificar_usuario($id_usuario,$usuario);
 				$dataPersona = array(
 					'a_paterno' => $a_paterno,
 					'a_materno' => $a_materno,
 					'nombres' => $nombres,
 					'ci' => $ci,
 					'exp' => $exp,
-					'sexo' => "",
-					'telf' => $telf,
-					'telf_opc' => $telf_opc,
-					'direccion' => "",
+					//'sexo' => "",
+					//'telf' => $telf,
+					//'telf_opc' => $telf_opc,
+					//'direccion' => "",
 					//'f_nacimiento' => "0000-00-00",
-					'estado' => 1,
-					'usuario_id' => $id_usuario,
+					//'estado' => 1,
+					//'usuario_id' => $id_usuario,
 				);
-				$id_persona = $this->model_persona->agregar_datos($dataPersona);
+				$this->model_persona->modificar_persona($id_persona,$dataPersona);
 
 				//$persona_id = $this->input->post('persona_id');
-				$tutor_id = $this->input->post('tutor_id');
+				/*$tutor_id = $this->input->post('tutor_id');
 				$data = array(
 					//'id' => $id,
 					'persona_id' => $id_persona,
 					'tutor_id' => $tutor_id,
 				);
-				$id_estudiante = $this->model_estudiante->agregar_datos($data);
+				$id_estudiante = $this->model_estudiante->agregar_datos($data);*/
 				$curso_id = $this->input->post("asignar_curso");
 				$inscripcion  = array('gestion' => date("Y"), 'curso_id' => $curso_id , 'estudiante_id' => $id_estudiante);
-				$this->model_inscripcion->agregar_datos($inscripcion);
+				$this->model_inscripcion->modificar_inscripcion($id_inscripcion,$inscripcion);
 
 				$verifica = true;
 		}

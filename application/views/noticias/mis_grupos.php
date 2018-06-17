@@ -5,7 +5,7 @@
             <div class="card-header deep-orange accent-2">
                 <div class="card-title">
                     <h4 class="flight-card-title">Grupos</h4>
-                    <p class="flight-card-date">Cursos, Materias</p>
+                    <p class="flight-card-date">Profesores, Cursos, Materias</p>
                 </div>
             </div>
             <div class="card-content white">
@@ -14,20 +14,35 @@
             		<input type="text" id="in_buscar_grupo">
             		<label for="in_buscar_grupo">Buscar grupo</label>
             	</div>
-            	<span class="mini-titulo">Grupos por curso</span>
+            	<span class="mini-titulo">Grupo Profesores</span>
       			<hr>
-				<div class="collection" style="border: none;">
-				    <a href="#!" class="collection-item">
-						<span style="font-size: 50px; font-weight: 800; color: #000;">1B</span><b class="blue-text" style="font-size: 25px;"> Secundaria</b>
-				    </a>
-				    <a href="#!" class="collection-item">
-						<span style="font-size: 50px; font-weight: 800; color: #000;">1A</span><b class="blue-text" style="font-size: 25px;"> Secundaria</b>
-				    </a>
-				    <a href="#!" class="collection-item">
-						<span style="font-size: 50px; font-weight: 800; color: #000;">2B</span><b class="blue-text" style="font-size: 25px;"> Secundaria</b>
-				    </a>
-				</div>
-				<span class="mini-titulo">Grupos por materia</span>
+      			<div id="email-list">
+		            <ul id="issues-collection" class="collection">
+		              <li class="collection-item avatar email-unread">
+		                <span class="circle indigo darken-1">P</span>
+		                <span class="email-title">Profesores</span>
+		                <p class="truncate grey-text ultra-small">Grupo de profesores del colegio</p>
+		                <a href="#!" class="secondary-content email-time">
+		                  <span class="blue-text ultra-small">123 Miembros</span>
+		                </a>
+		              </li>
+		            </ul>
+		          </div>
+            	<span class="mini-titulo">Grupos por Curso</span>
+      			<hr>
+				<div id="email-list">
+		            <ul id="issues-collection" class="collection">
+		              <li class="collection-item avatar email-unread" ng-click="dir_perfil_grupo(GP-0)">
+		                <span class="circle red">1</span>
+		                <span class="email-title"><b>1B</b> - Secundaria</span>
+		                <p class="truncate grey-text ultra-small">Grupo de estudiantes del curso</p>
+		                <a href="" class="secondary-content email-time">
+		                  <span class="blue-text ultra-small">25 Miembros</span>
+		                </a>
+		              </li>
+		            </ul>
+		          </div>
+				<span class="mini-titulo">Grupos por Materia</span>
       			<hr>
       			<div id="email-list">
 	      			<ul class="collection">

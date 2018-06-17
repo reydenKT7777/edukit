@@ -59,6 +59,10 @@ class Template extends CI_Controller {
 	{
 		$this->load->view('noticias/mis_grupos');
 	}
+	public function perfil_grupo()
+	{
+		$this->load->view('noticias/perfil_grupo');
+	}
 	public function mensajeria()
 	{
 		$this->load->view('noticias/mensajeria');

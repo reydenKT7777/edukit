@@ -10,7 +10,7 @@ class Login extends CI_Controller
     parent::__construct();
     $this->load->model('Model_administracion');
     $this->load->model('Model_profesor');
-    //$this->load->model('Model_tutor');
+    $this->load->model('Model_curso');
     //$this->load->model('Model_estudiante');
   }
   public function verificar()
@@ -30,6 +30,18 @@ class Login extends CI_Controller
       if ($r->rol == 1) {
         $adm = $this->Model_administracion->buscar_administracion($r->persona_id);
         $this->session->set_userdata('id_administracion',$adm->id);
+      }
+      if ($r->rol == 2) {
+       $prof = $this->Model_profesor->buscar_IDprofesor($r->persona_id);
+        $this->session->set_userdata('id_profesor',$prof->id); 
+        $cursos = $this->Model_curso->mis_cursos($prof->id);
+        $ar ="";
+        foreach ($cursos as $row) {
+          $ar = $ar."'nc-".$row->id."',";
+          $cur[] = $row->id;
+        }
+        $this->session->set_userdata('cursos',$ar); 
+        $this->session->set_userdata('array_cursos',$cur); 
       }
     }
     else {

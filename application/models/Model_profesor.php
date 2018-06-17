@@ -42,4 +42,11 @@ class Model_profesor extends CI_Model {
 	{
 		$this->db->delete('profesor', array('id' => $id));
 	}
+	public function buscar_IDprofesor($id_personal)
+	{
+		$query = $this->db->select('*')
+                ->where('persona_id', $id_personal)
+                ->get('profesor');
+		return $query->row();
+	}
 }

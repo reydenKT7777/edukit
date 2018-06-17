@@ -44,4 +44,23 @@ class Model_persona extends CI_Model {
 													WHERE p.id = $id_persona");
 		return $r->result();
 	}
+	public function IDestudiantefPersonaUser($id_estudiante)
+	{
+		$r = $this->db->query("SELECT u.id as id_usuario, p.id as id_persona ,u.foto_perfil, est.id as id_estudiante, ins.id as id_inscripcion
+													FROM usuario u
+													INNER JOIN persona p on p.usuario_id = u.id
+													INNER JOIN estudiante est on est.persona_id = p.id
+                                                    INNER JOIN inscripcion ins ON ins.estudiante_id = est.id
+													WHERE est.id = $id_estudiante");
+		return $r->result();
+	}
+	public function IDtutorfPersonaUser($id_tutor)
+	{
+		$r = $this->db->query("SELECT u.id as id_usuario, p.id as id_persona ,u.foto_perfil, tut.id as id_tutor
+													FROM usuario u
+													INNER JOIN persona p on p.usuario_id = u.id
+													INNER JOIN tutor tut on tut.persona_id = p.id
+													WHERE tut.id = $id_tutor");
+		return $r->result();
+	}
 }

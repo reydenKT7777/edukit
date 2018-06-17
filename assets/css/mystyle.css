@@ -397,4 +397,19 @@ a.list-group-item:focus, a.list-group-item:hover, button.list-group-item:focus, 
     color: #304ffe;
     cursor: pointer;
 }
+.averde{
+    color: #00c853;
+}
+.arojo{
+    color: #d50000;
+}
+.aplomo{
+    color:#9e9e9e;
+}
+.anegro{
+    color: #212121;
+}
+.anaranja{
+ color: #ffc107;
+}
 /**/

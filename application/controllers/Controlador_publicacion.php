@@ -103,11 +103,7 @@ class Controlador_publicacion extends CI_Controller
 		$verifica = false;
 
 		if ($this->form_validation->run() == TRUE) {
-
-			
-
-			if ($_FILES['adjunto']['name'] != "") {
-				
+	
 				if($_FILES['adjunto']['name'] != "")
 						{
 							$user = $this->session->id_usuario;
@@ -121,67 +117,105 @@ class Controlador_publicacion extends CI_Controller
 
 							// El nombre y nombre temporal del archivo que vamos para adjuntar
 							$tipo = "";
-							/*if ($file["type"] == "image/jpeg" || $file["type"] == "image/jpg") {
-								$tipo = ".jpg";
+							$formato =0;
+							
+							if ($file["type"] == "image/jpeg" || $file["type"] == "image/jpg") {
+								$tipo = "jpg";
+								$formato=1;
 							}elseif ($file["type"] == "image/png") {
-								$tipo = ".png";
-							}*/
+								$tipo = "png";
+								$formato=1;
+							}elseif ($file["type"] == "application/pdf") {
+								$tipo = "pdf";
+								$formato=2;
+							}elseif ($file["type"] == "application/doc" || $file["type"] == "application/docx" || $file["type"] ==  "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+								$tipo = "doc";
+								$formato=2;
+							}elseif ($file["type"] == "application/xls" || $file["type"] == "application/xlsx" || $file["type"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+								$tipo = "xls";
+								$formato=2;
+							}
 							$nombreArchivo=date("Y").date("m").date("d").$user.$file["name"];
 							$nombreTemporal=$file["tmp_name"];
 							//$nombreArchivo
 							$rutaArchivo=$carpetaAdjunta.$nombreArchivo;
 							move_uploaded_file($nombreTemporal,$rutaArchivo);
 							$nombreFoto = "assets/document/file/".$nombreArchivo;
+							$data = array(
+									'contenido' => $contenido,
+									'fecha' => date('Y-m-d H:i:s'),
+									'src_adj' => $nombreFoto,
+									'tipo_adJ'=>$formato,	
+									'formato_adj'=>$tipo,
+									'nombre_adj'=>$file["name"],
+									'ref_visualizacion'=>"ng",	
+									'estado' =>1,
+									'persona_id' =>$this->session->persona_id
+							 	);
+							$id_publicacion = $this->Model_publicacion->agregar_datos($data);
+
+							$r = $this->Model_publicacion->verMiPublicacion($id_publicacion);
+							foreach ($r as $row) {
+								$dataPublicacion = array(
+									'foto_perfil' => $row->foto_perfil,
+									'nombres' => $row->nombres,
+									'fecha' => $this->edate->obtenerFechaEnLetra($row->fecha),
+									'contenido' => $row->contenido,
+									'src_adj' => $row->src_adj,
+									'formato_adj' => $row->formato_adj,
+									'nombre_adj' => $row->nombre_adj,
+									'tipo_adj' => $row->tipo_adj,
+									'noticia_id' => $row->noticia_id,
+									'persona_id' => $row->persona_id,
+									'meGusta' => 0,
+									'meGustaPersonal' => 0
+								 );
+							}
+							$verifica = true;
+							$dataP = array($verifica,$dataPublicacion);
+			                echo json_encode($dataP);
 						}
-				$data = array(
-						'contenido' => $contenido,
-						'fecha' => date('Y-m-d'),
-						'src_adj' => $nombreFoto,
-						'estado' =>1,
-						'persona_id' =>$this->session->id_administracion
-				 	);
-					$this->Model_publicacion->agregar_datos($data);
-					$verifica = true;
-				/*$config['upload_path']   = 'C:\wamp64\www\1\assets\document\file';
-                $config['allowed_types'] = 'gif|jpg|png|pdf|doc|docx|xls|xlsx';
-                $config['max_size']      = 5000;
-                $this->load->library('upload', $config);
-                
-                if($this->upload->do_upload('file')){
-                    $uploadData = $this->upload->data();
-                    $uploadedFile = $uploadData['file_name'];
-                    
-                    $data = array(
-						'contenido' => $contenido,
-						'fecha' => date('Y-m-d'),
-						'src_adj' => $uploadedFile,
-						'estado' =>1,
-						'persona-id' =>$this->session->id_administracion
-				 	);
-					$this->Model_publicacion->agregar_datos($data);
-					$verifica = true;
-                }else{
-                    $verifica = false;
-                }*/
-                echo json_encode($verifica);
+						else{
+							$formato=3;
+							$data = array(
+									'contenido' => $contenido,
+									'fecha' => date('Y-m-d H:i:s'),
+									//'src_adj' => $nombreFoto,
+									'tipo_adJ'=>$formato,	
+									//'formato_adj'=>$tipo,
+									//'nombre_adj'=>$file["name"],
+									'ref_visualizacion'=>"ng",	
+									'estado' =>1,
+									'persona_id' =>$this->session->persona_id
+							 	);
+							$id_publicacion = $this->Model_publicacion->agregar_datos($data);
+
+							$r = $this->Model_publicacion->verMiPublicacion($id_publicacion);
+							foreach ($r as $row) {
+								$dataPublicacion = array(
+									'foto_perfil' => $row->foto_perfil,
+									'nombres' => $row->nombres,
+									'fecha' => $this->edate->obtenerFechaEnLetra($row->fecha),
+									'contenido' => $row->contenido,
+									'src_adj' => $row->src_adj,
+									'formato_adj' => $row->formato_adj,
+									'nombre_adj' => $row->nombre_adj,
+									'tipo_adj' => $row->tipo_adj,
+									'noticia_id' => $row->noticia_id,
+									'persona_id' => $row->persona_id,
+									'meGusta' => 0,
+									'meGustaPersonal' => 0
+								 );
+							}
+							$verifica = true;
+							$dataP = array($verifica,$dataPublicacion);
+			                echo json_encode($dataP);
+						}
 				
-			}
-			else{
-				echo json_encode($verifica);
-			}
-
-
-
-
-
-			
 		}
 		else{
 			echo json_encode($verifica);
-		}
-		// $contenido = $this->input->post('contenido');
-		
-
+		}		
 
 	}
 
