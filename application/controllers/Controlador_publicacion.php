@@ -107,8 +107,42 @@ class Controlador_publicacion extends CI_Controller
 			
 
 			if ($_FILES['adjunto']['name'] != "") {
+				
+				if($_FILES['adjunto']['name'] != "")
+						{
+							$user = $this->session->id_usuario;
+							$file = $_FILES["adjunto"];
+							$carpetaAdjunta="C:/wamp64/www/1/assets/document/file/";
 
-				$config['upload_path']   = 'assets\document\file';
+							if (!(file_exists($carpetaAdjunta))) {
+
+							    $carpetaAdjunta="assets/document/file/";
+							}
+
+							// El nombre y nombre temporal del archivo que vamos para adjuntar
+							$tipo = "";
+							/*if ($file["type"] == "image/jpeg" || $file["type"] == "image/jpg") {
+								$tipo = ".jpg";
+							}elseif ($file["type"] == "image/png") {
+								$tipo = ".png";
+							}*/
+							$nombreArchivo=date("Y").date("m").date("d").$user.$file["name"];
+							$nombreTemporal=$file["tmp_name"];
+							//$nombreArchivo
+							$rutaArchivo=$carpetaAdjunta.$nombreArchivo;
+							move_uploaded_file($nombreTemporal,$rutaArchivo);
+							$nombreFoto = "assets/document/file/".$nombreArchivo;
+						}
+				$data = array(
+						'contenido' => $contenido,
+						'fecha' => date('Y-m-d'),
+						'src_adj' => $nombreFoto,
+						'estado' =>1,
+						'persona_id' =>$this->session->id_administracion
+				 	);
+					$this->Model_publicacion->agregar_datos($data);
+					$verifica = true;
+				/*$config['upload_path']   = 'C:\wamp64\www\1\assets\document\file';
                 $config['allowed_types'] = 'gif|jpg|png|pdf|doc|docx|xls|xlsx';
                 $config['max_size']      = 5000;
                 $this->load->library('upload', $config);
@@ -128,9 +162,12 @@ class Controlador_publicacion extends CI_Controller
 					$verifica = true;
                 }else{
                     $verifica = false;
-                }
-
+                }*/
+                echo json_encode($verifica);
 				
+			}
+			else{
+				echo json_encode($verifica);
 			}
 
 
@@ -138,6 +175,9 @@ class Controlador_publicacion extends CI_Controller
 
 
 			
+		}
+		else{
+			echo json_encode($verifica);
 		}
 		// $contenido = $this->input->post('contenido');
 		
