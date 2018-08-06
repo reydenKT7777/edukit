@@ -39,7 +39,7 @@
         <form class="login-form" id="iniciar-sis">
           <div class="row">
             <div class="input-field col s12 center">
-              <img src="<?=base_url()?>assets/images/logo/isologo.svg" alt="" class="responsive-img valign profile-image-login">
+              <img src="<?=base_url()?>assets/images/logo/l1.svg" alt="" class="responsive-img valign profile-image-login">
             </div>
           </div>
           <div class="row">

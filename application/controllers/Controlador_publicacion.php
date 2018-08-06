@@ -219,4 +219,17 @@ class Controlador_publicacion extends CI_Controller
 
 	}
 
+	function crearMiniatura($filename){
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = 'assets/img/'.$filename;
+        $config['create_thumb'] = TRUE;
+        $config['maintain_ratio'] = TRUE;
+        $config['new_image']='assets/img/thumbs/';
+        $config['thumb_marker']='';//captura_thumb.png
+        $config['width'] = 150;
+        $config['height'] = 150;
+        $this->load->library('image_lib', $config); 
+        $this->image_lib->resize();
+    }
+
 }

@@ -130,7 +130,7 @@ function date_picker2(dom){
     });
 }
 /* inicializacion de los modulos de angular */
-var app = angular.module("myApp", ["ngRoute", "ui.materialize"]);
+var app = angular.module("myApp", ["ngRoute", "ui.materialize",'tb-color-picker']);
 app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
@@ -140,6 +140,14 @@ app.config(function($routeProvider) {
     .when("/materias", {
         templateUrl : base_url_global+"template/materias",
         controller: 'materias_Controller'
+    })
+    .when("/calificaciones", {
+        templateUrl : base_url_global+"template/calificaciones",
+        controller: 'calificacion_Controller'
+    })
+    .when("/notas/:id", {
+        templateUrl : base_url_global+"template/notas",
+        controller: 'notas_Controller'
     })
     .when("/grupos", {
         templateUrl : base_url_global+"template/mis_grupos",
@@ -352,13 +360,229 @@ app.controller('perfil_grupo_Controller', function($scope, $http) {
     //$scope.ver_info_grupo();
     $('.materialboxed').materialbox();
 });
-app.controller('mensajeria_Controller', function($scope, $http) {
-    
+app.controller('mensajeria_Controller', function($scope, $http) {   
 });
 app.controller('materias_Controller', function($scope, $http) {
-    
+    $('.modal').modal();
+    $scope.lista=[];
+    $scope.lista_cursos=[];
+    $scope.materia=[];
+    $scope.datos_curso=[];
+    $scope.form=[];
+    $scope.options = ['#DFE5E5','#502C76', '#334496', '#58BFC8', '#46B24C', '#93C846', '#EFA52A', '#DB2033', '#DD0789', '#59AADF', '#F6E20F', '#783896'];
+    $scope.color = '#334496';
+    $scope.colore = '#334496';
+
+    $scope.colorChanged = function(newColor, oldColor) {
+        console.log('from ', oldColor, ' to ', newColor);
+    }
+    $scope.listar_materia=function(){
+        $http.get(base_url_global+"controlador_materia/listar_materia_prof").then(function(response){
+            $scope.lista=response.data;
+        }) 
+    }
+    $scope.nueva_materia=function(){
+        $('.modal').modal();
+        $("#addmateria").modal('open');
+    }
+    $scope.listar_cursos=function(){
+        $http.get(base_url_global+"controlador_curso/listar_curso_concat").then(function(response){
+            $scope.lista_cursos=response.data;
+        })
+    }
+    $scope.guardar_materia=function(e){
+        e.preventDefault();
+        var valid =valida_input_vacios(["in_materia","in_curso"]);
+        if (valid) {
+            $.ajax({
+                type: 'POST',
+                url: base_url_global+'controlador_materia/agregar_datos',
+                data:  $('#form-add-materia').serialize(),
+                dataType: 'json',
+                success: function(respuesta){
+                    if (respuesta[0]) {
+                        $scope.listar_materia();
+                        $("#addmateria").modal('close');
+                        $("#form-add-materia").trigger('reset');
+                        swal("Registro agregado", "", "success");
+                    }else{
+                        swal("Error", respuesta[1], "error");
+                    }
+                    
+                }, 
+                beforeSend: function() {
+                  
+                },
+                complete: function() {
+                  
+                }
+            });
+        }
+    }
+    $scope.form_modificar_materia=function(puntero){
+        $scope.form=$scope.lista[puntero];
+        $("#editamateria").modal('open');
+    }
+    $scope.modificar_materia=function(e){
+        e.preventDefault();
+        var formData = new FormData($("#form_edit_materia")[0]);
+        var valid =valida_input_vacios(["in_materia2","in_curso2"]);
+        if (valid) {
+            $.ajax({
+                type: 'POST',
+                url: base_url_global+'controlador_materia/modificar_materia',
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(respuesta){
+                    if (respuesta[0]) {
+                        $scope.listar_materia();
+                        $("#editamateria").modal('close');
+                        swal("Registro Modificado", "", "success");
+                    }else{
+                        swal("Error", respuesta[1], "error");
+                    }   
+                },  
+                beforeSend: function() {
+                  
+                },
+                complete: function() {
+                  
+                }
+            });
+
+              
+
+
+        }
+    }
+    $scope.desactivar_materia=function(id) {
+        swal({
+            title: "Esta materia sera eliminada",
+            text: "Desea Continuar?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#f44336',
+            confirmButtonText: 'Aceptar',
+            closeOnConfirm: false
+        },
+        function() {
+            $.ajax({
+                type: 'POST',
+                url: base_url_global+'controlador_materia/eliminar_datos',
+                data: {id_materia:id},
+                success: function(respuesta){
+                    if (respuesta[0]) {
+                        $scope.listar_materia();
+                        swal("Registro dado de baja", "", "success");   
+                    }
+                }, 
+                beforeSend: function() {
+                  
+                },
+                complete: function() {
+                  
+                }
+            });
+        });
+    }
+
+    $scope.listar_cursos();
+    $scope.listar_materia();
 });
 ////////////////////
-app.controller('sidebar_control', function($scope, $http) {
-    
+app.controller('sidebar_control', function($scope, $http) { 
 });
+app.controller('calificacion_Controller', function($scope, $http) { 
+    $scope.lista=[];
+    
+    $scope.listar_materia=function(){
+        $http.get(base_url_global+"controlador_materia/listar_materia_prof").then(function(response){
+            $scope.lista=response.data;
+        }) 
+    }
+    $scope.listar_materia();
+});
+app.controller('notas_Controller', function($scope, $http, $routeParams) { 
+    $scope.nomina=[];
+    $scope.cont=[];
+    $scope.bloqueq=[];
+    $scope.bloques=function(curso){
+        $http.get(base_url_global+"Controlador_calificacion/bloque_notas?id="+$routeParams.id).then(function(response){
+            $scope.bloqueq=response.data;
+        });
+    }
+    // $scope.notas=function(){
+    //     $http.post(base_url_global+"Controlador_calificacion/bloque_notas", $scope.bloqueq).then(function(response){
+            
+    //     });
+    // }
+    $scope.bloques();
+});
+
+
+
+
+
+
+
+
+    //     $scope.seleccion_curso=function(var_id_curso){
+    //     $http.get(base_url_global+"Controlador_asistencia/listar_asistencia_estudiantes_curso?id="+var_id_curso).then(function(response){
+    //         $scope.lista_estudiantes=response.data;
+    //     })
+    //     $("#modal_lista_curso").modal('open');  
+    // }
+
+
+
+
+
+
+    // $scope.modifica_like=function(index, puid){
+    //     $http.get(base_url_global+"Controlador_publicacion/modificaMeGusta?nid="+puid).then(function(response){
+    //         if (response.data[0]) {
+    //             $scope.lista_post[index].meGusta=($scope.lista_post[index].meGusta)*1+1;
+    //             $scope.lista_post[index].meGustaPersonal=true;
+    //         }else{
+    //             $scope.lista_post[index].meGusta=($scope.lista_post[index].meGusta)*1-1;
+    //             $scope.lista_post[index].meGustaPersonal=false;
+    //         }
+    //     })
+    // }
+
+    //     $scope.desactivar_registro_admin=function(id) {
+    //     swal({
+    //         title: "Este registro sera dado de baja",
+    //         text: "Desea Continuar?",
+    //         type: "warning",
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#f44336',
+    //         confirmButtonText: 'Aceptar',
+    //         closeOnConfirm: false
+    //     },
+    //     function() {
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: base_url_global+'controlador_administracion/eliminar_datos',
+    //             data: {id_persona:id},
+    //             success: function(respuesta){
+    //                 if (respuesta[0]) {
+    //                     $scope.listar_admin();
+    //                     swal("Registro dado de baja", "", "success");   
+    //                 }
+    //             }, 
+    //             beforeSend: function() {
+                  
+    //             },
+    //             complete: function() {
+                  
+    //             }
+    //         });
+    //     });
+    // }
+
+
+
+

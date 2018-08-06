@@ -21,6 +21,7 @@
     <link href="<?=base_url()?>assets/css/materialize-stepper.min.css" type="text/css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/select2-materialize.css" type="text/css" rel="stylesheet">
     <link href="<?=base_url()?>assets/vendors/dropify/css/dropify.min.css" type="text/css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/vendors/color/dist/colorPickerStyle.css" type="text/css" rel="stylesheet">
     <!--mi CSS-->
     <link href="<?=base_url()?>assets/css/mystyle.css" type="text/css" rel="stylesheet">
   </head>
@@ -43,7 +44,7 @@
               <li>
                 <h1 class="logo-wrapper">
                   <a href="index.html" class="brand-logo darken-1">
-                    <img src="<?=base_url()?>assets/images/logo/logotipo d2.svg" alt="materialize logo">
+                    <img src="<?=base_url()?>assets/images/logo/logo bordev3.svg" alt="materialize logo">
                     <!-- <span class="logo-text hide-on-med-and-down">Sisa</span> -->
                   </a>
                 </h1>
@@ -185,7 +186,7 @@
                 </li>
                 <?php if ($this->session->rol == 2) {?>
                 <li class="bold">
-                  <a href="" class="waves-effect waves-cyan">
+                  <a href="#!calificaciones" class="waves-effect waves-cyan">
                     <i class="material-icons">description</i>
                     <span class="nav-text">Calificaciones</span>
                   </a>
@@ -299,6 +300,7 @@
               </a>
             </li>
             <?php } ?>
+            
           </ul>
           <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only">
             <i class="material-icons">menu</i>
@@ -621,6 +623,7 @@
     <script type="text/javascript" src="<?=base_url()?>assets/js/materialize-stepper.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>assets/js/select2.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>assets/vendors/dropify/js/dropify.min.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>assets/vendors/color/dist/colorPicker.js"></script>
     <!--mis javascript-->
     <?php if ($this->session->rol == 1) {?>
     <script type="text/javascript" src="<?=base_url()?>assets/js/app.js"></script>

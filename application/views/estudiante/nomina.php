@@ -51,9 +51,13 @@
 				      <i class="material-icons">print</i>
 				    </a>
 				    <ul>
-				      <li><a class="btn-floating red tooltipped" data-position="left" data-delay="50" data-tooltip="Planilla de alumnos"><i class="material-icons">insert_chart</i></a></li>
-				      <li><a class="btn-floating green tooltipped" data-position="left" data-delay="50" data-tooltip="Imprimir nomina de alumnos"><i class="material-icons">content_paste</i></a></li>
+
+				      <li><a class="btn-floating red tooltipped" href="<?=base_url()?>controlador_estudiante/reporte_estudiante_pdf_nomina?curso={{item_curso}}" data-position="left" data-delay="50" data-tooltip="Planilla de alumnos" target="_blank"><i class="material-icons">insert_chart</i></a></li>
+
+				      <li><a class="btn-floating green tooltipped" href="<?=base_url()?>controlador_estudiante/reporte_estudiante_pdf_asistencia?curso={{item_curso}}" data-position="left" data-delay="50" data-tooltip="Imprimir nomina de alumnos" target="_blank"><i class="material-icons">content_paste</i></a></li>
+
 				      <li><a class="btn-floating blue tooltipped" data-position="left" data-delay="50" data-tooltip="Otros"><i class="material-icons">featured_play_list</i></a></li>
+
 				    </ul>
 				 </div>
 				<div class="row">

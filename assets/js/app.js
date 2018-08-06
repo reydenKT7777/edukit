@@ -773,6 +773,11 @@ app.controller('estudiante_nomina_Controller', function($scope, $http) {
             $scope.estudiantes_curso=response.data;
         })
     }
+    $scope.pdf_estudiantes_curso=function(){
+        $http.get(base_url_global+"Controlador_estudiante/reporte_estudiante_pdf_nomina?curso="+$scope.item_curso).then(function(response){
+
+        })
+    }
     $scope.verifica_padre=function(){
         $http.post(base_url_global+"buscador/buscar_tutor", {'ci': $scope.ci_padre}).then(function(response){
             $scope.data_ins=response.data;
@@ -920,6 +925,7 @@ app.controller('estudiante_asistencia_Controller', function($scope, $http) {
     $scope.lista_cursos_col=[];
     $scope.lista_estudiantes=[];
     $scope.asistencia_valid=false;
+    $scope.asist=false;
     $scope.datos_est_ind=[];
     $scope.bus_estudiante=function(){
         var aux_id=$('#in_est_b').val();

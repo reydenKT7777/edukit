@@ -41,8 +41,8 @@ class Model_administracion extends CI_Model {
 	public function buscar_administracionV2($usuario)
 	{
 		$query = $this->db->select('*')
-                ->where('usuario', $usuario)
-                ->get('administracion');
+                ->where('nombre_usuario', $usuario)
+                ->get('usuario');
 		return $query->num_rows();
 	}
 	public function eliminar_datos($id)

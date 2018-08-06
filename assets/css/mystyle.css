@@ -1,5 +1,5 @@
 .nav-head{
-	background-color: #005087;
+	background-color: #003399;
 }
 .sidebar-collapse {
   top: -50px;
@@ -7,7 +7,7 @@
 .page-footer {
     padding-top: 0;
     color: #fff;
-    background-color: #005087;
+    background-color: #003399;
 }
 .full-modal .modal-content{
 	padding: 0;
@@ -413,3 +413,55 @@ a.list-group-item:focus, a.list-group-item:hover, button.list-group-item:focus, 
  color: #ffc107;
 }
 /**/
+
+.collection.notas{
+    border: none;
+    border-radius: 5px;
+}
+/*font-weight: bold;*/
+.collection.notas .collection-item-mat{
+    line-height: 1.5rem;
+    padding: 10px 20px;
+    margin: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+.collection.notas .collection-item-mat:last-child {
+    border-bottom: none;
+}
+.collection.notas a.collection-item-mat {
+    display: block;
+    transition: .25s;
+    color: #fff;
+    font-weight: bold;
+}
+.collection-item-mat span.badge {
+    margin-top: calc(0.75rem - 11px);
+    min-width: 3rem;
+    padding: 0 6px;
+    margin-left: 14px;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 22px;
+    height: 22px;
+    color: #fff;
+    float: right;
+    box-sizing: border-box;
+}
+.card .card-content.notas{
+    padding-top: 0px; 
+    padding-right: 0px ;
+    padding-bottom: 0px;
+    padding-left: 20px;
+    /*border-radius: 0 0 2px 2px;*/
+}
+
+.tabs .tab.notas{
+    background-color: white;
+    border-radius: 0 20px 0 0;
+}
+.tabs .tab.notas i{
+    color:green;
+}
+.tabs .tab.notas a{
+    padding: 0 10px;
+}

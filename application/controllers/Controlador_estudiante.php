@@ -295,4 +295,232 @@ class Controlador_estudiante extends CI_Controller {
 		$id = $this->input->post('id');
 		$r = $this->model_estudiante->eliminar_datos($id);
 	}
+	public function reporte_estudiante_pdf_nomina(){
+		$idd = $this->input->get("curso");
+		$id = base64_decode($idd);
+    	$this->load->library('pdf');
+
+    	$this->load->library('edate');
+    	$fecha_actual = date("Y-m-d");
+    	$f = $this->edate->obtenerFecha($fecha_actual);
+
+    	$r2 = $this->model_estudiante->listar_estudiantes_curso($idd);
+
+		$this->pdf = new Pdf();
+
+		$this->pdf->AddPage();
+
+		$this->pdf->AliasNbPages();
+
+		$this->pdf->SetTitle("Reporte");
+		//$this->pdf->SetMargins(25,20,2);
+		$this->pdf->SetLeftMargin(20);
+		$this->pdf->SetRightMargin(20);
+		$this->pdf->SetRightMargin(15);
+		//$this->pdf->SetFillColor(28,33,121,1);
+		$this->pdf->SetFillColor(4,123,248,1);
+		
+		
+		//-----------------------------------------------------
+		$this->pdf->SetFont('Arial','B',10);
+		$this->pdf->Ln(20);
+		$this->pdf->cell(25);
+		$this->pdf->Cell(120,10,'DATOS PERSONALES',0,0,'C');
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Ln(10);
+		// Se define el formato de fuente: Arial, negritas, tamaño 9
+		
+
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Cell(40,6,'FECHA:',0,0);
+
+		$this->pdf->SetFont('Arial', '', 7);
+		$this->pdf->Cell(45,6,$f,0,0);
+
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Cell(45,6,'UNIDAD EDUCATIVA:',0,0);
+
+		$this->pdf->SetFont('Arial', '', 7);
+		$this->pdf->Cell(45,6,'Maria Auxiliadora',0,1);
+
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Cell(40,6,'ESTUDIANTES REGISTRADOS:',0,0);
+
+		$this->pdf->SetFont('Arial', '', 7);
+		$this->pdf->Cell(45,6,' ',0,0);
+
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Cell(45,6,'FIRMA/SELLO:',0,0);
+
+		$this->pdf->Cell(45,6,' ',0,0);
+
+		$this->pdf->Ln(10);
+
+		$this->pdf->SetFont('Arial', '', 7);
+
+
+
+		$this->pdf->SetTextColor(255,255,255);
+		$this->pdf->Cell(5,8,'N',0,0,'C','1');
+	  	$this->pdf->Cell(56,8,'NOMBRES',0,0,'C','1');
+	  	$this->pdf->Cell(20,8,'CI',0,0,'C','1');
+	  	$this->pdf->Cell(10,8,'SEXO',0,0,'C','1');
+	  	$this->pdf->Cell(20,8,'FECHA DE NAC.',0,0,'C','1');
+	  	$this->pdf->Cell(18,8,'TELEFONO',0,0,'C','1');
+	  	$this->pdf->Cell(45,8,'DIRECCION',0,0,'C','1');
+		
+	  	$this->pdf->Ln(8);
+
+	  	$this->pdf->SetFont('Arial', '', 9);
+	  // La variable $x se utiliza para mostrar un número consecutivo
+	  $x = 1;
+	  $this->pdf->SetTextColor(0,0,0);
+		foreach ($r2 as $row) {
+
+		      if ($x%2==0) {
+		      	$this->pdf->SetFillColor(242,242,242,1);
+		      	$this->pdf->Cell(5,8,$x++,'',0,'L',1);
+		      $this->pdf->Cell(56,8,$row->nombres,'',0,'L',1);
+		      $this->pdf->Cell(20,8,$row->ci,'',0,'L',1);
+		      $this->pdf->Cell(10,8,$row->sexo,'',0,'L',1);
+		      $this->pdf->Cell(20,8,$row->f_nacimiento,'',0,'L',1);
+		      $this->pdf->Cell(18,8,$row->telefono,'',0,'L',1);
+		      $this->pdf->SetFont('Arial', '', 7);
+		      $this->pdf->Cell(45,8,$row->direccion,'',0,'L',1);
+		      $this->pdf->SetFont('Arial', '', 9);
+			  
+      //Se agrega un salto de linea
+      		  $this->pdf->Ln(8);
+		      }else{
+		      	
+		      	$this->pdf->Cell(5,8,$x++,'',0,'L',0);
+		      $this->pdf->Cell(56,8,$row->nombres,'',0,'L',0);
+		      $this->pdf->Cell(20,8,$row->ci,'',0,'L',0);
+		      $this->pdf->Cell(10,8,$row->sexo,'',0,'L',0);
+		      $this->pdf->Cell(20,8,$row->f_nacimiento,'',0,'L',0);
+		      $this->pdf->Cell(18,8,$row->telefono,'',0,'L',0);
+		      $this->pdf->SetFont('Arial', '', 7);
+		      $this->pdf->Cell(45,8,$row->direccion,'',0,'L',0);
+		      $this->pdf->SetFont('Arial', '', 9);
+			  
+      //Se agrega un salto de linea
+      		  $this->pdf->Ln(8);
+		      }
+
+		      
+
+		}
+	  	$this->pdf->Ln(7);
+		$this->pdf->Output("REPORTE PROFESOR.pdf", 'I');
+		
+	}
+	public function reporte_estudiante_pdf_asistencia(){
+		$idd = $this->input->get("curso");
+		$id = base64_decode($idd);
+    	$this->load->library('pdf');
+
+    	$this->load->library('edate');
+    	$fecha_actual = date("Y-m-d");
+    	$f = $this->edate->obtenerFecha($fecha_actual);
+
+    	$r2 = $this->model_estudiante->listar_estudiantes_curso($idd);
+
+		$this->pdf = new Pdf();
+
+		$this->pdf->AddPage();
+
+		$this->pdf->AliasNbPages();
+
+		$this->pdf->SetTitle("Reporte");
+		//$this->pdf->SetMargins(25,20,2);
+		$this->pdf->SetLeftMargin(20);
+		$this->pdf->SetRightMargin(20);
+		$this->pdf->SetRightMargin(15);
+		//$this->pdf->SetFillColor(28,33,121,1);
+		$this->pdf->SetFillColor(4,123,248,1);
+		
+		
+		//-----------------------------------------------------
+		$this->pdf->SetFont('Arial','B',10);
+		$this->pdf->Ln(20);
+		$this->pdf->cell(25);
+		$this->pdf->Cell(120,10,'DATOS PERSONALES',0,0,'C');
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Ln(10);
+		// Se define el formato de fuente: Arial, negritas, tamaño 9
+		
+
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Cell(40,6,'FECHA:',0,0);
+
+		$this->pdf->SetFont('Arial', '', 7);
+		$this->pdf->Cell(45,6,$f,0,0);
+
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Cell(45,6,'UNIDAD EDUCATIVA:',0,0);
+
+		$this->pdf->SetFont('Arial', '', 7);
+		$this->pdf->Cell(45,6,'Maria Auxiliadora',0,1);
+
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Cell(40,6,'ESTUDIANTES REGISTRADOS:',0,0);
+
+		$this->pdf->SetFont('Arial', '', 7);
+		$this->pdf->Cell(45,6,' ',0,0);
+
+		$this->pdf->SetFont('Arial','B',9);
+		$this->pdf->Cell(45,6,'FIRMA/SELLO:',0,0);
+
+		$this->pdf->Cell(45,6,' ',0,0);
+
+		$this->pdf->Ln(10);
+
+		$this->pdf->SetFont('Arial', '', 7);
+
+
+
+		$this->pdf->SetTextColor(0,0,0);
+		$this->pdf->Cell(5,22,'N',1,0,'C','0');
+	  	$this->pdf->Cell(56,22,'NOMBRES',1,0,'C','0');
+	  	for($i=0;$i<22;$i++){
+	  		$this->pdf->Cell(5,22,'',1,0,'C','0');
+	  	}
+		
+	  	$this->pdf->Ln(22);
+
+	  	$this->pdf->SetFont('Arial', '', 9);
+	  // La variable $x se utiliza para mostrar un número consecutivo
+	  $x = 1;
+	  $this->pdf->SetTextColor(0,0,0);
+		foreach ($r2 as $row) {
+
+		      if ($x%2==0) {
+		      	$this->pdf->SetFillColor(242,242,242,1);
+		      	$this->pdf->Cell(5,5,$x++,'1',0,'L',1);
+		      $this->pdf->Cell(56,5,$row->nombres,'1',0,'L',1);
+		      for($i=0;$i<22;$i++){
+		      	$this->pdf->Cell(5,5,'','1',0,'L',1);
+		      }
+			  
+      //Se agrega un salto de linea
+      		  $this->pdf->Ln(5);
+		      }else{
+		      	
+		      	$this->pdf->Cell(5,5,$x++,'1',0,'L',0);
+		      $this->pdf->Cell(56,5,$row->nombres,'1',0,'L',0);
+		      for($i=0;$i<22;$i++){
+		      	$this->pdf->Cell(5,5,'','1',0,'L',0);
+		      }
+			  
+      //Se agrega un salto de linea
+      		  $this->pdf->Ln(5);
+		      }
+
+		      
+
+		}
+	  	$this->pdf->Ln(7);
+		$this->pdf->Output("REPORTE PROFESOR.pdf", 'I');
+		
+	}
 }

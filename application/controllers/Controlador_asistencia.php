@@ -14,22 +14,72 @@ class Controlador_asistencia extends CI_Controller {
 	{
 		
 	}
-	
-	public function listar_cursos()
-	{
+
+	public function listar_cursos(){
 		$r = $this->model_curso->listar_curso_por_estado();
+		//+++++++
+		$fecha=date("y-m-d");
 		
 		foreach ($r as $row) {
+			$id = $row->id;
 
-			$data[] = array(
-						'id' =>$row->id,
+			$asistente = $this->model_asistencia->asistentes($id,$fecha);
+			$ausente = $this->model_asistencia->ausentes($id,$fecha);
+			$cant = $this->model_asistencia->cont_estudiantes($id,$fecha);
+			$est = $this->model_asistencia->estado_asistencia_por_est($id,$fecha);
+
+			foreach ($asistente as $ra) {
+				$as = $ra->asistente;
+			}
+			foreach ($cant as $rb) {
+				$co = $rb->estudiantes;
+			}
+			foreach ($ausente as $rc) {
+				$au = $rc->ausente;
+			}
+			foreach ($est as $rd) {
+				$cant_estad = $rd->estad;
+			}
+
+			if ($cant_estad==$co and $co<>0) {
+				$modif=1;
+			}else{
+				$modif=0;
+			}
+
+
+
+			if (!($co==0) && $modif==1) {
+				$porcentaje_asistentes=($as * 100)/$co;
+				$porcentaje_ausentes=($au * 100)/$co;
+
+				$data[] = array(
+						'id' =>$id,
 						'grado' =>$row->grado,
 						'nivel' =>$row->nivel,
-						'paralelo' => $row->paralelo
+						'paralelo' => $row->paralelo,
+						'asistentes' => round($porcentaje_asistentes),
+						'ausentes' => round($porcentaje_ausentes),
+						'modif' => $modif
 					);
+			}else{
+				$data[] = array(
+						'id' =>$id,
+						'grado' =>$row->grado,
+						'nivel' =>$row->nivel,
+						'paralelo' => $row->paralelo,
+						'asistentes' => 0,
+						'ausentes' => 0,
+						'modif' => $modif
+					);
+			}
 
+
+			
 		}
 		echo json_encode($data);
+
+		
 	}
 
 	public function listar_asistencia_estudiantes_curso(){

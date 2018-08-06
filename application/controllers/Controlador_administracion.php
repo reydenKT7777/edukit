@@ -22,7 +22,7 @@ class Controlador_administracion extends CI_Controller {
 	public function agregar_datos()
 	{
 		$usr = $this->input->post('usuario');
-		if($this->Model_administracion->buscar_administracionV2($usr) == 0)
+		if($this->model_administracion->buscar_administracionV2($usr) == 0)
 		{
 			$user = $this->input->post('usuario');
 			$pass = $this->input->post('password');

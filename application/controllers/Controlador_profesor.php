@@ -339,8 +339,9 @@ class Controlador_profesor extends CI_Controller {
 		//-----------------------------------------------------
 		
 		$this->pdf->SetFont('Arial','B',10);
-		$this->pdf->Cell(30);
-		$this->pdf->Cell(120,10,'NOMINA PROFESORES',0,0,'C');
+		$this->pdf->Ln(20);
+		$this->pdf->cell(25);
+		$this->pdf->Cell(120,10,'NOMINA DE PROFESORES',0,0,'C');
 		$this->pdf->SetFont('Arial','B',9);
 		$this->pdf->Ln(10);
 		// Se define el formato de fuente: Arial, negritas, tamaño 9
@@ -454,7 +455,8 @@ class Controlador_profesor extends CI_Controller {
 		//-----------------------------------------------------
 		
 		$this->pdf->SetFont('Arial','B',10);
-		$this->pdf->Cell(30);
+		$this->pdf->Ln(20);
+		$this->pdf->cell(25);
 		$this->pdf->Cell(120,10,'PLANILLA PROFESORES',0,0,'C');
 		$this->pdf->SetFont('Arial','B',9);
 		$this->pdf->Ln(10);

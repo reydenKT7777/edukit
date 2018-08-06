@@ -23,7 +23,7 @@
           </a>
         </div>
         <div class="col s12 m6 right-align">
-          <a class="waves-effect waves-light btn blue" ng-click="nuevo_post()">
+          <a class="waves-effect waves-light btn blue_2" ng-click="nuevo_post()">
             <i class="material-icons left">rate_review</i> Publicar</a>
         </div>
       </div>
@@ -126,7 +126,10 @@
             <ul id="issues-collection" class="collection">
               <li class="collection-item avatar email-unread" ng-repeat="g in top_grupos" ng-click="dir_perfil_grupo(g.tipo)">
                 <span class="circle darken-1 {{g.color}}">{{g.ini}}</span>
-                <span class="email-title">{{g.titulo}}</span>
+                <span class="email-title" ng-if="g.color=='green'">{{g.nombre}}</span>
+                <span class="email-title" ng-if="g.color=='red'">{{g.titulo}}</span>
+                <span class="email-title" ng-if="g.color=='blue'">{{g.titulo}}</span>
+                <span class="email-title" ng-if="g.color=='indigo'">{{g.titulo}}</span>
                 <p class="truncate grey-text ultra-small">{{g.subtitulo}}</p>
                 <a href="" class="secondary-content email-time">
                   <span class="blue-text ultra-small">{{g.integrantes}} Miembros</span>

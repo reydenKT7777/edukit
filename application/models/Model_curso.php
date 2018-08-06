@@ -1,12 +1,24 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Model_curso extends CI_Model {
+
+
+	
 	public function listar_curso()
 	{
-		$query = $this->db->query("SELECT c.id, CONCAT(c.grado,' ',c.nivel,' - ',c.paralelo) as grado 
+		$query = $this->db->query("SELECT c.id, c.grado, c.nivel, c.paralelo
 									FROM curso c WHERE c.estado = 1");
 		return $query->result();
 	}
+
+	public function listar_curso_concat()
+	{
+		$query = $this->db->query("SELECT c.id, CONCAT(c.grado, c.paralelo) AS curso, c.nivel
+									FROM curso c WHERE c.estado = 1");
+		return $query->result();
+	}
+
+
 	public function listar_curso_completo()
 	{
 		$query = $this->db->query("SELECT *

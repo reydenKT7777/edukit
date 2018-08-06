@@ -10,6 +10,7 @@ class Login extends CI_Controller
     parent::__construct();
     $this->load->model('Model_administracion');
     $this->load->model('Model_profesor');
+    $this->load->model('Model_estudiante');
     $this->load->model('Model_curso');
     //$this->load->model('Model_estudiante');
   }

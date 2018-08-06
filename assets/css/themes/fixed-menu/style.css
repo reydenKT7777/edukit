@@ -3267,7 +3267,7 @@ select {
 
 /* Icon Background Round */
 .background-round {
-  background-color: rgba(0, 0, 0, 0.18);
+  background-color: #fff;
   padding: 15px;
   border-radius: 50%;
 }
@@ -4059,6 +4059,9 @@ li.home:before {
 
 .blue {
   background-color: #2196F3 !important;
+}
+.blue_2 {
+  background-color: #003399 !important;
 }
 
 .blue-text {
@@ -8470,4 +8473,9 @@ tr.group:hover {
 
 #polar-chart-holder {
   padding-top: 20px;
+}
+.suspensivos{
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow: ellipsis;
 }

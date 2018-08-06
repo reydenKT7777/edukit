@@ -15,6 +15,11 @@ class Controlador_curso extends CI_Controller {
 		$r = $this->model_curso->listar_curso();
 		echo json_encode($r);
 	}
+	public function listar_curso_concat()
+	{
+		$r = $this->model_curso->listar_curso_concat();
+		echo json_encode($r);
+	}
 	public function listar_curso_completo()
 	{
 		$r = $this->model_curso->listar_curso_completo();

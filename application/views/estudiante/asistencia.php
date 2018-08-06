@@ -17,13 +17,16 @@
 									<b class="blue-text">{{c.grado}}{{c.paralelo}}</b> <b>de {{c.nivel}}</b>
 								</div>
 								<div class="col s3">
-									<b class="green-text">Asistencia 0%</b>
+									<b class="green-text">Asistencia {{c.asistentes}}%</b>
 								</div>
 								<div class="col s3">
-									<b class="red-text">Inasistencia 0%</b>
+									<b class="red-text">Inasistencia {{c.ausentes}}%</b>
 								</div>
-								<div class="col s2">
+								<div class="col s2" ng-if="!(c.modif == '1')">
 									<a class="btn btn-floating pulse red" ng-click="seleccion_curso(c.id)"><i class="material-icons">playlist_add</i></a>
+								</div>
+								<div class="col s2" ng-if="c.modif == '1'">
+									<a class="btn btn-floating green" ng-click="seleccion_curso(c.id)"><i class="material-icons">create</i></a>
 								</div>
 							</div>
 						</li>
